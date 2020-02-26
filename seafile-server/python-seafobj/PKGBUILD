@@ -1,0 +1,22 @@
+# Maintainer: Klemens Schölhorn <klemens@schoelhorn.eu>
+
+_pkgname=seafobj
+pkgname=python-$_pkgname
+pkgver=7.1.1
+pkgrel=1
+pkgdesc="Python library for accessing seafile data model"
+arch=('any')
+url="https://github.com/haiwen/seafobj"
+license=('Apache')
+depends=('python')
+makedepends=('python-setuptools')
+source=("${url}/archive/v${pkgver}-server.tar.gz"
+       "setup.py")
+sha256sums=('00eb6fa0871dea6c6c59f8d20cb7f38fcdf6fc77c11f1a984c7accb73f97b96a'
+            'SKIP'
+           )
+
+package() {
+    cd "$srcdir/$_pkgname-$pkgver-server"
+    python ../setup.py install --root="$pkgdir/" --optimize=1
+}
