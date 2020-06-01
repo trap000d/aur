@@ -1,8 +1,12 @@
 [Unit]
 Description=Seafile hub
-After=network.target seafile.service
+Requires=seafile@%i.service
+StartLimitIntervalSec=120
+StartLimitBurst=5
 
 [Service]
+Restart=on-failure
+RestartSec=15s
 Type=forking
 # WorkingDirectory=/home/seafile/%i
 Environment=SEAHUB_LOG_DIR=/home/seafile/%i/logs

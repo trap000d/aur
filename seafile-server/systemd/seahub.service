@@ -3,6 +3,8 @@ Description=Seafile hub
 After=network.target seafile.service
 
 [Service]
+Restart=on-failure
+RestartSec=15s
 Type=forking
 # WorkingDirectory=/home/seafile/%i
 Environment=SEAHUB_LOG_DIR=/home/seafile/%i/logs
