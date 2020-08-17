@@ -11,7 +11,7 @@ pkgdesc="A note taking and to-do application with synchronization capabilities"
 arch=('x86_64' 'i686')
 depends=('gtk3' 'libexif' 'libgsf' 'libjpeg-turbo' 'libwebp' 'libxss' 'nodejs'
          'nss' 'orc')
-makedepends=('git' 'npm' 'python' 'rsync' 'yarn')
+makedepends=('git' 'npm' 'python' 'rsync')
 optdepends=('libappindicator-gtk3: for tray icon')
 url="https://joplinapp.org/"
 license=('MIT')
@@ -39,7 +39,6 @@ build() {
 
   # npm complains for missing execa package - force to install it
   npm install --cache "${srcdir}/npm-cache" execa
-  npm install --cache "${srcdir}/npm-cache" fs-extra
   npm install --cache "${srcdir}/npm-cache"
 
   # CliClient
