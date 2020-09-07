@@ -5,7 +5,7 @@
 # https://github.com/alfredopalhares/arch-pkgbuilds
 
 pkgname=joplin
-pkgver=1.0.233
+pkgver=1.0.242
 pkgrel=2
 pkgdesc="A note taking and to-do application with synchronization capabilities"
 arch=('x86_64' 'i686')
@@ -17,10 +17,10 @@ url="https://joplinapp.org/"
 license=('MIT')
 source=("${pkgname}.desktop" "${pkgname}-desktop.sh" "${pkgname}.sh"
         "${pkgname}-${pkgver}.tar.gz::https://github.com/laurent22/joplin/archive/v${pkgver}.tar.gz")
-sha256sums=('0fe91b84b9bdb6ec511488e81fedf21fc4190e7ccae887b0425f4999f90a4a49'
+sha256sums=('eb901b6e47fe93d06899f58afaff6d0d22be15577f70e25106cf90b1723ff55b'
             '41bfdc95a6ee285eb644d05eb3bded72a83950d4720c3c8058ddd3c605cd625d'
             '5245da6f5f647d49fbe044b747994c9f5a8e98b3c2cd02757dd189426a677276'
-            'b3180ef7ce2d9d8fa95feae8d85a20c6a6ff708b5d0e73743461b7bebe688a24')
+            '5082d1fe069afef645cd130635b24d3017b85e3e321d1e392c7971a76a24001b')
 
 build() {
   # https://github.com/electron/electron/releases/tag/v8.3.2
