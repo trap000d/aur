@@ -1,0 +1,12 @@
+--- a/src/main.js	2020-11-09 12:38:41.248640527 +1300
++++ b/src/main.js	2020-11-09 12:12:43.957968636 +1300
+@@ -100,6 +100,9 @@
+       minHeight: 800,
+       minWidth: 1000,
+       customVar: 'elephants',
++      webPreferences: {
++        nodeIntegration: true
++      },
+       isDebug: DEBUG
+     });
+ 

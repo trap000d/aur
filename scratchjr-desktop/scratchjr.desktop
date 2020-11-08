@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.3.2
+Name=Scratch Jr
+Comment=Scratch Jr - First steps in programming for kids
+Exec=/usr/bin/scratchjr-desktop
+Icon=/usr/share/ScratchJr-linux-x64/resources/app/src/icons/png/128x128.png
+Terminal=false
+Type=Application
+Categories=Application;Games;Education;

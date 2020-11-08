@@ -1,0 +1,13 @@
+#!/bin/bash
+
+readonly sjr_dir="/usr/share/ScratchJr-linux-x64"
+
+if [[ ! -d $sjr_dir ]]; then
+  echo "Cannot find /usr/share/ScratchJr-linux-x64"
+  exit 1
+fi
+
+cd $sjr_dir
+
+./ScratchJr "$@"
+
