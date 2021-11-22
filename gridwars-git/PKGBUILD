@@ -1,0 +1,64 @@
+# Maintainer: trap000d <trap000d at gmail dot com>
+
+pkgname=gridwars-git
+pkgver=r10.229dcf7
+pkgrel=1
+pkgdesc="Grid Wars 2: A clone of Geometry Wars"
+_srcname="GridWars"
+arch=('x86_64')
+url="http://gridwars.marune.de/"
+license=('GPL')
+depends=('libglvnd' 'libxdmcp' 'libxxf86vm' 'libxau' 'libxft' 'libx11' 'glu')
+makedepends=('git')
+source=('https://github.com/bmx-ng/bmx-ng/releases/download/v0.129.3.45.linux.x64/BlitzMax_linux_x64_0.129.3.45.tar.xz'
+        'git+https://github.com/mmatyas/GridWars.git'
+        'https://github.com/trap000d/GridWars/commit/82b78aadc3d4dcc73e2e128c3fbbfa1c20d3a82f.patch'
+        'gridwars.desktop')
+sha256sums=('635108f2b93d654934ae2baf15698082e2f21f070d6872da8e42bb9d4e331447'
+            'SKIP'
+            '7c4bef8bdf65601115e1046f7ea7f10610f4c226cfdeb3e73b9dd36bb827ca84'
+            '2ad4d272c2d4696b27eb3f8c5bff3b9d0c540703680124796c147cbf11eabb8e')
+
+pkgver() {
+    cd ${srcdir}/${_srcname}
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+    # Lower case of png files
+    cd ${srcdir}/${_srcname}
+    for f in $(find ./gfx -name '*.PNG' -type 'f'); do mv ${f} ${f,,} ; done
+}
+
+build() {
+    export PATH=${srcdir}/BlitzMax/bin:$PATH
+    cd ${srcdir}/${_srcname}
+    git apply ../82b78aadc3d4dcc73e2e128c3fbbfa1c20d3a82f.patch
+    bmk makeapp -t gui -r -w gridwars.bmx
+}
+
+package() {
+
+    #Creating Directories
+    install -m755 -d $pkgdir/usr/{bin,share/{applications,pixmaps,games/gridwars/{gfx/{high,med,low,solid},music,sounds}}}
+
+    # Installing
+    install -D -m664 $srcdir/${_srcname}/Config.txt $pkgdir/usr/share/games/gridwars/Config.txt
+    install -D -m755 $srcdir/${_srcname}/gridwars $pkgdir/usr/share/games/gridwars/
+    for i in high low med solid ; do
+        install -D -m644 $srcdir/${_srcname}/gfx/$i/* $pkgdir/usr/share/games/gridwars/gfx/$i
+    done
+    install -D -m644 $srcdir/${_srcname}/music/* $pkgdir/usr/share/games/gridwars/music/
+    install -D -m644 $srcdir/${_srcname}/sounds/* $pkgdir/usr/share/games/gridwars/sounds/
+    install -D -m644 $srcdir/gridwars.desktop $pkgdir/usr/share/applications/gridwars.desktop
+    install -D -m644 $srcdir/${_srcname}/gfx/high/whiteplayer.png $pkgdir/usr/share/pixmaps/gridwars.png
+
+    # Linking binary and stuff
+
+    ln -sf /usr/share/games/gridwars/gridwars $pkgdir/usr/bin/gridwars
+    chgrp games $pkgdir/usr/share/games/gridwars/Config.txt
+    #echo "OK"
+}
+
+#    install -D -m644 $srcdir/bass.dll $pkgdir/usr/share/games/gridwars/
+#
