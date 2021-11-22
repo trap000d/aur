@@ -40,12 +40,13 @@ build() {
 package() {
 
     #Creating Directories
-    install -m755 -d $pkgdir/usr/{bin,share/{applications,pixmaps,games/gridwars/{gfx/{high,med,low,solid},music,sounds}}}
+    install -m755 -d $pkgdir/usr/{bin,share/{applications,pixmaps,games/gridwars/{gfx/{high,med,low,solid,user},music,sounds}}}
 
     # Installing
     install -D -m664 $srcdir/${_srcname}/Config.txt $pkgdir/usr/share/games/gridwars/Config.txt
     install -D -m755 $srcdir/${_srcname}/gridwars $pkgdir/usr/share/games/gridwars/
-    for i in high low med solid ; do
+    install -D -m644 $srcdir/${_srcname}/gfx/colourpick.png $pkgdir/usr/share/games/gridwars/gfx/colourpick.png
+    for i in high low med solid user; do
         install -D -m644 $srcdir/${_srcname}/gfx/$i/* $pkgdir/usr/share/games/gridwars/gfx/$i
     done
     install -D -m644 $srcdir/${_srcname}/music/* $pkgdir/usr/share/games/gridwars/music/
@@ -56,9 +57,6 @@ package() {
     # Linking binary and stuff
 
     ln -sf /usr/share/games/gridwars/gridwars $pkgdir/usr/bin/gridwars
+    chgrp games $pkgdir/usr/share/games/gridwars
     chgrp games $pkgdir/usr/share/games/gridwars/Config.txt
-    #echo "OK"
 }
-
-#    install -D -m644 $srcdir/bass.dll $pkgdir/usr/share/games/gridwars/
-#
