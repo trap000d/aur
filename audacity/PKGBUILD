@@ -4,7 +4,7 @@
 # Contributor: Eric Bélanger <eric@archlinux.org>
 
 pkgname=audacity
-pkgver=3.1.0
+pkgver=3.1.2
 pkgrel=1
 epoch=1
 pkgdesc="A program that lets you manipulate digital audio waveforms"
@@ -20,6 +20,7 @@ depends=(
   libid3tag
   libmad
   libogg
+  libsbsms
   libsndfile
   libsoxr
   libvorbis
@@ -52,30 +53,26 @@ optdepends=('ffmpeg: additional import/export capabilities')
 provides=(audacity)
 conflicts=(audacity-git)
 source=(
-  "git+https://github.com/audacity/audacity.git#branch=release-3.1.0"
+  "https://github.com/audacity/audacity/archive/refs/tags/Audacity-${pkgver}.tar.gz"
 )
-sha256sums=('SKIP')
-
-#pkgver() {
-#  cd audacity
-#  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g' | cut -d'.' -f2-
-#}
+sha256sums=('4bd1175e613ddba2bebf98c244975b157d7998b5112de7f0a6dba8bd7b77214d')
 
 build() {
-  cd audacity
+  cd ${srcdir}/audacity-Audacity-${pkgver}
   mkdir build && cd build
   CC=gcc cmake \
+    -G "Unix Makefiles" \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
-    -DwxBUILD_TOOLKIT:STRING=gtk3 \
-    -Daudacity_use_wxwidgets=local \
-    -Daudacity_use_ffmpeg:STRING=loaded \
+    -Daudacity_obey_system_dependencies=On \
     -Daudacity_lib_preference=system \
+    -Daudacity_use_wxwidgets=local \
+    -Daudacity_use_ffmpeg=loaded \
     ..
   cmake --build .
 }
 
 package() {
-  cd audacity/build
+  cd ${srcdir}/audacity-Audacity-${pkgver}/build
   make DESTDIR="${pkgdir}" install
 }
