@@ -1,6 +1,6 @@
 pkgbase = audacity
 	pkgdesc = A program that lets you manipulate digital audio waveforms
-	pkgver = 3.1.2
+	pkgver = 3.1.3
 	pkgrel = 1
 	epoch = 1
 	url = https://www.audacityteam.org/
@@ -45,7 +45,7 @@ pkgbase = audacity
 	optdepends = ffmpeg: additional import/export capabilities
 	provides = audacity
 	conflicts = audacity-git
-	source = https://github.com/audacity/audacity/archive/refs/tags/Audacity-3.1.2.tar.gz
-	sha256sums = 4bd1175e613ddba2bebf98c244975b157d7998b5112de7f0a6dba8bd7b77214d
+	source = https://github.com/audacity/audacity/archive/refs/tags/Audacity-3.1.3.tar.gz
+	sha256sums = 07aed333a20b8df381d5c0a167840883fff8ef65f5e5f71e654c0925d6c60de8
 
 pkgname = audacity
