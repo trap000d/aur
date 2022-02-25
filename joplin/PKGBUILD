@@ -1,71 +1,146 @@
 # Maintainer: Alfredo Palhares <alfredo at palhares dot me>
 # Contributor: Mark Wagie <mark dot wagie at tutanota dot com>
+# Contributor:  Matteo Parolari
+# Contributor: gardar <aur@gardar.net>
 
 # Please contribute to:
 # https://github.com/alfredopalhares/arch-pkgbuilds
 
-pkgname=joplin
-pkgver=1.3.18
-pkgrel=2
-pkgdesc="A note taking and to-do application with synchronization capabilities"
-arch=('x86_64' 'i686')
-depends=('gtk3' 'libexif' 'libgsf' 'libjpeg-turbo' 'libwebp' 'libxss' 'nodejs'
-         'nss' 'orc')
-makedepends=('git' 'npm' 'python' 'rsync')
+pkgbase="joplin"
+pkgname=('joplin-desktop')
+pkgver=2.7.13
+groups=('joplin')
+pkgrel=1
+install="joplin.install"
+depends=('electron' 'gtk3' 'libexif' 'libgsf' 'libjpeg-turbo' 'libwebp' 'libxss' 'nodejs'
+         'nss' 'orc' 'rsync' 'libvips')
 optdepends=('libappindicator-gtk3: for tray icon')
+arch=('x86_64' 'i686')
+makedepends=('git' 'yarn' 'python2' 'rsync' 'jq' 'electron' 'libgsf' 'node-gyp>=8.4.1' 'libvips')
 url="https://joplinapp.org/"
 license=('MIT')
-source=("${pkgname}.desktop" "${pkgname}-desktop.sh" "${pkgname}.sh"
-        "${pkgname}-${pkgver}.tar.gz::https://github.com/laurent22/joplin/archive/v${pkgver}.tar.gz")
-sha256sums=('5ffea0cef32cdb030fb17c469ffcb603eee6c6180442c9c8db44e84e580d5976'
-            '41bfdc95a6ee285eb644d05eb3bded72a83950d4720c3c8058ddd3c605cd625d'
-            '5245da6f5f647d49fbe044b747994c9f5a8e98b3c2cd02757dd189426a677276'
-            '71f836bb1504b101cc85071e750d183edd4405ff163776a0aff74e6da0ba1906')
+source=("joplin.desktop" "joplin-desktop.sh" "joplin.sh"
+  "joplin-${pkgver}.tar.gz::https://github.com/laurent22/joplin/archive/v${pkgver}.tar.gz"
+  "joplin_electron.patch"
+  )
+sha256sums=('c7c5d8b0ff9edb810ed901ea21352c9830bfa286f3c18b1292deca5b2f8febd2'
+            'a450284fe66d89aa463d129ce8fff3a0a1a783a64209e4227ee47449d5737be8'
+            'dc1236767ee055ea1d61f10e5266a23e70f3e611b405fe713ed24ca18ee9eeb5'
+            'cac517c776ea362871dd1250d56d1ae91d9d3ebcd45d2186bf97212c10b194c1'
+            '604673f80c322d4aacbb7b8fb9dbc491f5acd067236ad775471568f34a42a8ee'
+            )
+
+# local npm cache directory
+_npm_cache="npm-cache"
+
+_get_cache() {
+  if [[ "${_npm_cache}" =~ ^/ ]]; then
+    printf "%s" "${_npm_cache}"
+  else
+    printf "%s" "${srcdir}/${_npm_cache}"
+  fi
+}
+
+prepare() {
+  local cache=$(_get_cache)
+  msg2 "npm cache directory: $cache"
+
+  msg2 "Disabling husky (git hooks)"
+  sed -i '/"husky": ".*"/d' "${srcdir}/joplin-${pkgver}/package.json"
+
+  msg2 "Appliying patches..."
+  cd "${srcdir}/joplin-${pkgver}"
+  patch -p1 < "${srcdir}/joplin_electron.patch"
+  #tar xvJf "${srcdir}/joplin-patches.tar.xz"
+  #patch -p1 < "${srcdir}/0005-All-Fixed-issue-where-synchroniser-would-try-to-upda.patch"
+  #patch -p1 < "${srcdir}/0007-Tools-Use-Yarn-3-to-manage-monorepo-5833.patch"
+
+  msg2 "Tweaking lerna.json"
+  local tmp_json="$(mktemp --tmpdir="$srcdir")"
+  local lerna_json="${srcdir}/joplin-${pkgver}/lerna.json"
+  # TODO: Add check for lerna.json file
+  jq ".packages = [
+        \"packages/app-cli\", \"packages/app-desktop\",
+        \"packages/fork-htmlparser2\", \"packages/fork-sax\",
+        \"packages/lib\", \"packages/renderer\", \"packages/tools\",
+        \"packages/turndown\", \"packages/turndown-plugin-gfm\"
+        ] |
+      . += {\"npmClient\": \"yarn\", \"npmClientArgs\": [\"--cache $cache\", \"--no-optional\"]}" \
+    "$lerna_json" > "$tmp_json"
+  cat "$tmp_json" > "$lerna_json"
+  rm "$tmp_json"
+}
+
 
 build() {
-  # https://github.com/electron/electron/releases/tag/v8.3.2
-  # Restored old implementation of Linux Tray icons to fix a collection of issues where the tray icon wouldn't appear, 
-  # would be the wrong size or would randomly disappear. #23927
-  cd "${srcdir}/${pkgname}-${pkgver}/ElectronClient"
-  sed -i 's/"electron": "^8.2.5",/"electron": "^8.3.2",/g' package.json
-
-  # Remove husky (git hooks) from dependencies
-  cd "${srcdir}/${pkgname}-${pkgver}"
-  sed -i '/"husky": ".*"/d' package.json
+  local cache=$(_get_cache)
+  msg2 "npm cache directory: $cache"
+  cd "${srcdir}/joplin-${pkgver}"
 
   # Force Lang
   # INFO: https://github.com/alfredopalhares/joplin-pkgbuild/issues/25
   export LANG=en_US.utf8
 
-  # npm complains for missing execa package - force to install it
-  npm install --cache "${srcdir}/npm-cache" execa
-  npm install --cache "${srcdir}/npm-cache"
-
-  # CliClient
-  cd "${srcdir}/${pkgname}-${pkgver}/CliClient"
-  npm install --cache "${srcdir}/npm-cache"
-
-  # Electron App
-  cd "${srcdir}/${pkgname}-${pkgver}/ElectronClient"
-  npm install --cache "${srcdir}/npm-cache"
-  npm run dist
+  msg2 "Installing dependencies through Lerna"
+  # FSevents is on the optinal dependencies and its Mac Only
+  yarn install
 
 }
 
-package() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
-  install -d ${pkgdir}/usr/share/{${pkgname},${pkgname}-cli}
-  cp -R CliClient/build/* "${pkgdir}/usr/share/${pkgname}-cli"
-  cp -R CliClient/node_modules "${pkgdir}/usr/share/${pkgname}-cli"
-  cp -R ElectronClient/dist/linux-unpacked/* "${pkgdir}/usr/share/${pkgname}"
+#FIXME: These checks fail on some machines, even with the exit 0
+# Something related with the number of allowed processes I guess
+check() {
+  cd "${srcdir}/joplin-${pkgver}"
+  msg2 "Not Running any tests for now"
+  #npm run test || exit 0
+}
 
-  install -Dm755 ${srcdir}/${pkgname}-desktop.sh "${pkgdir}/usr/bin/${pkgname}-desktop"
-  install -m755 ${srcdir}/${pkgname}.sh "${pkgdir}/usr/bin/${pkgname}"
+package_joplin-desktop() {
+  pkgdesc="A note taking and to-do application with synchronization capabilities - Desktop"
+  depends=('electron' 'gtk3' 'libexif' 'libgsf' 'libjpeg-turbo' 'libwebp' 'libxss' 'nodejs'
+         'nss' 'orc')
+  optdepends=('libappindicator-gtk3: for tray icon')
+  conflicts=('joplin-desktop-electron')
 
-  install -Dm644 ${srcdir}/${pkgname}.desktop -t "${pkgdir}/usr/share/applications"
+  # ./generateSha512.js fails if AppImage is not built
+  mkdir -p "${srcdir}/joplin-${pkgver}/packages/app-desktop/dist/"
+  touch "${srcdir}/joplin-${pkgver}/packages/app-desktop/dist/AppImage"
 
+  msg2 "Building Desktop with packaged Electron..."
+  mkdir -p "${pkgdir}/usr/share/joplin-desktop"
+  cd "${srcdir}/joplin-${pkgver}/packages/app-desktop"
+  electron_dir="${srcdir}/joplin-${pkgver}/packages/app-desktop/node_modules/electron/dist"
+  #"/usr/lib/electron"
+  export PATH="${srcdir}/joplin-${pkgver}/packages/app-desktop/node_modules/.bin":$PATH
+  electron_version=$(cat $electron_dir/version)
+  msg2 "Using Electron Version ${electron_version}"
+  # Current version of electron does not work
+  USE_HARD_LINKS=false yarn run dist -- --publish=never  --linux  --x64 \
+    --dir="dist/"
+      # FIXME: Using packaged electron breaks the interface
+    # --dir="dist/" -c.electronDist=$electron_dir -c.electronVersion=$electron_version
+
+  # TODO: Cleanup app.asar file
+  cd dist/linux-unpacked/
+  cp -R "." "${pkgdir}/usr/share/joplin-desktop"
+
+  msg2 "Installing LICENSE..."
+  cd "${srcdir}/joplin-${pkgver}/"
   install -Dm644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}"
 
-  # Remove unneeded architecture files
-  rm -rf "${pkgdir}/usr/share/${pkgname}/resources/app/node_modules/7zip-bin-linux"/arm*
+  msg2 "Installing startup script and desktop file..."
+  cd "${srcdir}"
+  install -Dm755 ${srcdir}/joplin-desktop.sh "${pkgdir}/usr/bin/joplin-desktop"
+  install -Dm644 ${srcdir}/joplin.desktop -t "${pkgdir}/usr/share/applications"
+
+  msg2 "Installing icons"
+  local -r src_icon_dir="${srcdir}/joplin-${pkgver}/packages/app-desktop/build/icons"
+  local -i size
+  for size in 16 22 24 32 36 48 64 72 96 128 192 256 512; do
+    [[ -f "${src_icon_dir}/${size}x${size}.png" ]] &&
+      install -Dm644 \
+        "${src_icon_dir}/${size}x${size}.png" \
+        "${pkgdir}/usr/share/icons/hicolor/${size}x${size}/apps/joplin.png"
+  done
 }
+
