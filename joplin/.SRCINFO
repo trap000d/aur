@@ -1,5 +1,5 @@
 pkgbase = joplin
-	pkgver = 2.7.13
+	pkgver = 2.7.14
 	pkgrel = 1
 	url = https://joplinapp.org/
 	install = joplin.install
@@ -32,12 +32,12 @@ pkgbase = joplin
 	source = joplin.desktop
 	source = joplin-desktop.sh
 	source = joplin.sh
-	source = joplin-2.7.13.tar.gz::https://github.com/laurent22/joplin/archive/v2.7.13.tar.gz
+	source = joplin-2.7.14.tar.gz::https://github.com/laurent22/joplin/archive/v2.7.14.tar.gz
 	source = joplin_electron.patch
 	sha256sums = c7c5d8b0ff9edb810ed901ea21352c9830bfa286f3c18b1292deca5b2f8febd2
 	sha256sums = a450284fe66d89aa463d129ce8fff3a0a1a783a64209e4227ee47449d5737be8
 	sha256sums = dc1236767ee055ea1d61f10e5266a23e70f3e611b405fe713ed24ca18ee9eeb5
-	sha256sums = cac517c776ea362871dd1250d56d1ae91d9d3ebcd45d2186bf97212c10b194c1
+	sha256sums = 9e5b2d3cc2a353f54d1ff6ffd506870a7cbb4d9a67c01eb54d1be036f3881361
 	sha256sums = 604673f80c322d4aacbb7b8fb9dbc491f5acd067236ad775471568f34a42a8ee
 
 pkgname = joplin-desktop
