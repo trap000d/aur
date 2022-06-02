@@ -15,12 +15,10 @@ license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git')
 options=('!strip')
 source=("https://github.com/hardkernel/linux/archive/${_commit}.tar.gz"
-        '0001-rtl8812au-sprintf-fix-gcc10.patch'
         'config'
         'linux.preset'
         '99-linux.hook')
 sha256sums=('SKIP'
-            'ebcfc4cc9d2eb4acb3d825b65fbb575f61659e6b9f25eb466601f7644dc81671'
             '412319aca4c4db63a3f98ba79eaf7f3ee9a5f0cc8bd1c084e2da4e7093fd8711'
             'd2f5d8a051fa2e12cb1ade241caed4cb595100af60297a9f39db273c26ac29cb'
             '2cfa699bf987a2ccedbd5fa97b7b391c7a1a67f9abcf104b8cd88053669dbe9f'
@@ -67,7 +65,7 @@ build() {
   #yes "" | make config
 
   # build!
-  make ${MAKEFLAGS} zImage modules dtbs
+  make ${MAKEFLAGS} Image.gz modules dtbs
 }
 
 _package() {
@@ -91,7 +89,7 @@ _package() {
   mkdir -p "${pkgdir}"/{lib/modules,lib/firmware}
   make INSTALL_MOD_PATH="${pkgdir}" modules_install
   make INSTALL_DTBS_PATH="${pkgdir}/boot/dtbs" dtbs_install
-  cp arch/$KARCH/boot/zImage "${pkgdir}/boot/zImage"
+  cp arch/$KARCH/boot/Image.gz "${pkgdir}/boot/zImage"
 
   # set correct depmod command for install
   sed \
