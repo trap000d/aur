@@ -10,7 +10,7 @@ pkgbase = quarto-cli
 	makedepends = npm
 	makedepends = rust
 	depends = nodejs
-	depends = deno<1.23.0
+	depends = deno
 	depends = dart-sass
 	depends = esbuild
 	depends = pandoc>=2.17
