@@ -1,0 +1,81 @@
+diff --git a/configuration b/configuration
+index 1af9a4498..b6bc17bc2 100644
+--- a/configuration
++++ b/configuration
+@@ -8,7 +8,7 @@
+ 
+ 
+ # Binary dependencies
+-export DENO=v1.22.0
++export DENO=v1.23.0
+ export DENO_DOM=v0.1.17-alpha
+ export PANDOC=2.18
+ export DARTSASS=1.32.8
+diff --git a/src/core/deno-dom.ts b/src/core/deno-dom.ts
+index 15cd471a7..90fa3cbeb 100644
+--- a/src/core/deno-dom.ts
++++ b/src/core/deno-dom.ts
+@@ -58,7 +58,7 @@ export async function initDenoDom() {
+ 
+         const utf8Encoder = new TextEncoder();
+         const utf8Decoder = new TextDecoder();
+-        const usizeBytes = dylib.symbols.deno_dom_usize_len() as number;
++        const usizeBytes = Number(dylib.symbols.deno_dom_usize_len());
+         const isBigEndian = Boolean(
+           dylib.symbols.deno_dom_is_big_endian() as number,
+         );
+diff --git a/src/project/serve/serve.ts b/src/project/serve/serve.ts
+index 4620b1bfa..8912d0291 100644
+--- a/src/project/serve/serve.ts
++++ b/src/project/serve/serve.ts
+@@ -567,8 +567,9 @@ function acquirePreviewLock(project: ProjectContext) {
+         { newline: false },
+       );
+       try {
+-        Deno.kill(pid, "SIGTERM");
+-        Deno.sleepSync(3000);
++        setTimeout(() => {
++            Deno.kill(pid, "SIGTERM");
++        }, 3000);
+       } catch {
+         //
+       } finally {
+diff --git a/src/project/types/website/listing/website-listing.ts b/src/project/types/website/listing/website-listing.ts
+index 1703f84db..c846a5ada 100644
+--- a/src/project/types/website/listing/website-listing.ts
++++ b/src/project/types/website/listing/website-listing.ts
+@@ -242,7 +242,7 @@ export async function listingHtmlDependencies(
+     const supporting: string[] = [];
+     if (options[kFeed]) {
+       const listingOptions = {
+-        type: "full",
++        //type: "full",
+         ...options[kFeed],
+       } as ListingFeedOptions;
+ 
+diff --git a/src/project/types/website/website-giscus.ts b/src/project/types/website/website-giscus.ts
+index 5970921b9..445882836 100644
+--- a/src/project/types/website/website-giscus.ts
++++ b/src/project/types/website/website-giscus.ts
+@@ -74,7 +74,7 @@ export async function resolveFormatForGiscus(
+         }
+         if (giscusOptions[kGiscusCategoryId] === undefined) {
+           giscusOptions[kGiscusCategoryId] = getDiscussionCategoryId(
+-            giscusOptions[kGiscusCategoryId] as string,
++            String(giscusOptions[kGiscusCategoryId]),
+             giscusMeta,
+           );
+         }
+diff --git a/src/publish/netlify/api/core/CancelablePromise.ts b/src/publish/netlify/api/core/CancelablePromise.ts
+index 2644686a5..318cb89bf 100644
+--- a/src/publish/netlify/api/core/CancelablePromise.ts
++++ b/src/publish/netlify/api/core/CancelablePromise.ts
+@@ -22,7 +22,7 @@ export interface OnCancel {
+ }
+ 
+ export class CancelablePromise<T> implements Promise<T> {
+-  readonly [Symbol.toStringTag]: string;
++  readonly [Symbol.toStringTag]!: string;
+ 
+   private _isResolved: boolean;
+   private _isRejected: boolean;
