@@ -1,0 +1,32 @@
+# Maintainer: Aleksandr Beliaev <trap000d@gmail.com>
+
+pkgname=python-wsgidav-seafile
+pkgver=9.0.6
+pkgrel=2
+pkgdesc="Seafile webdav server (patched for Postgresql)"
+arch=('any')
+url="https://github.com/haiwen/seafdav"
+license=('MIT')
+depends=('python'
+         'python-json5'
+         'python-seafobj'
+         'python-defusedxml'
+         'python-jinja'
+         'python-sqlalchemy'
+         'python-yaml')
+makedepends=('python-setuptools'
+             'libyaml')
+conflicts=('python-wsgidav')
+source=("${url}/archive/v${pkgver}-server.tar.gz"
+        "https://patch-diff.githubusercontent.com/raw/haiwen/seafdav/pull/66.diff"
+       )
+sha256sums=('751f8e43aec0aba1f34e9fe7205c22c77eaee1a5a3e22da0fce854de57465cc0'
+            'ad9f5202170fd20397437cc940a4adb07e21f6264fab8a273aafe2669162d5f2'
+       )
+
+package() {
+    cd "$srcdir/seafdav-$pkgver-server"
+    patch -p1 < ../66.diff
+    python setup.py install --root="$pkgdir/" --optimize=1
+    install -D -m644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

@@ -1,2 +1,0 @@
-# Before upgrading from 7.0.* to 7.1.* install the following packages:
-libyaml python-dateutil python-wsgidav-seafile python-jsmin python-jinja python-sqlalchemy python-seafobj python-yaml
