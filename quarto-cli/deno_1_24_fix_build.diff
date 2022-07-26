@@ -7,7 +7,7 @@ index 1af9a4498..b6bc17bc2 100644
  
  # Binary dependencies
 -export DENO=v1.22.0
-+export DENO=v1.23.0
++export DENO=v1.24.0
  export DENO_DOM=v0.1.17-alpha
  export PANDOC=2.18
  export DARTSASS=1.32.8

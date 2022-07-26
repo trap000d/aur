@@ -1,0 +1,29 @@
+#! /bin/bash
+
+VER="1.0.36"
+OLDPWD=$PWD
+
+sed -i "s/^pkgver=.*/pkgver=$VER/" PKGBUILD
+
+awk -v newsums="$(makepkg -g)" '
+BEGIN {
+  if (!newsums) exit 1
+}
+
+/^[[:blank:]]*(md|sha)[[:digit:]]+sums=/,/\)[[:blank:]]*$/ {
+  if (!i) print newsums; i++
+  next
+}
+
+1
+' PKGBUILD > PKGBUILD.new && mv PKGBUILD{.new,}
+
+makepkg --clean && makepkg --printsrcinfo > .SRCINFO
+
+RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  echo "Buid success"
+  #rm -rf quarto-cli-$VER.tar.gz quarto-cli-$VER-?-x86_64.pkg.tar.zst
+else
+  echo "Build failed"
+fi
