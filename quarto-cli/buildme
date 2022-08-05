@@ -1,6 +1,6 @@
 #! /bin/bash
 
-VER="1.0.36"
+VER="1.0.38"
 OLDPWD=$PWD
 
 sed -i "s/^pkgver=.*/pkgver=$VER/" PKGBUILD
