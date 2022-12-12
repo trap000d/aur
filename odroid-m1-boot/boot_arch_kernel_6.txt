@@ -1,0 +1,8 @@
+setenv bootlabel Arch Linux ARM 6.1
+
+setenv bootargs root=UUID=9ceb92e1-c737-4cfe-8a90-bdad2af420b1 rw rootwait audit=0 splash plymouth.ignore-serial-consoles console=ttyS2,1500000 earlycon=uart8250,mmio32,0xfe660000
+
+load ${devtype} ${devnum}:${partition} ${fdt_addr_r} ${prefix}/dtbs/rockchip/rk3568-odroid-m1.dtb
+load ${devtype} ${devnum}:${partition} ${kernel_addr_r} ${prefix}/Image
+load ${devtype} ${devnum}:${partition} ${ramdisk_addr_r} ${prefix}/initramfs-linux.img
+booti ${kernel_addr_r} ${ramdisk_addr_r}:${filesize} ${fdt_addr_r}

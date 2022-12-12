@@ -1,30 +1,40 @@
-# AArch64 Odroid-M1 mainline kernel
+# AArch64 multi-platform
+# Maintainer: Kevin Mihelich <kevin@archlinuxarm.org>
 
 buildarch=8
 
-_commit=73626777fec89467c4a1494858888b081b24b34e
-_srcname=linux-${_commit}
-_desc="ODROID-M1"
+_ver=6.1
+
 pkgbase=linux-aarch64
+_srcname=linux-${_ver}
 _kernelname=${pkgbase#linux}
-pkgver=5.18.5
+_desc="AArch64 multi-platform"
+pkgver=${_ver}
 pkgrel=1
 arch=('aarch64')
 url="http://www.kernel.org/"
 license=('GPL2')
-makedepends=('cpio' 'xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'uboot-tools' 'vboot-utils' 'dtc')
+makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'uboot-tools' 'vboot-utils' 'dtc')
 options=('!strip')
-source=("https://github.com/tobetter/linux/archive/${_commit}.tar.gz"
+source=("https://git.kernel.org/torvalds/t/${_srcname}.tar.gz"
         '0001-net-smsc95xx-Allow-mac-address-to-be-set-as-a-parame.patch'
         '0002-arm64-dts-rockchip-disable-pwm0-on-rk3399-firefly.patch'
+        '0003-Add-support-for-the-Hardkernel-ODROID-M1-board.patch'
         'config'
+        'generate_chromebook_its.sh'
+        'kernel.keyblock'
+        'kernel_data_key.vbprivk'
         'linux.preset'
         '60-linux.hook'
         '90-linux.hook')
-md5sums=('1ce3185ef67306feeee3886a432327b8'
-         '91d1298599aa31b10f1f3954a450b6c3'
-         '3b781286c0b97cec552ad6c8a7a019dd'
-         '33ed566febd1fe6813a87e6afba28cf7'
+md5sums=('5cc284ce6690230ddfdf4839493df4fe'
+         '7b08a199a97e3e2288e5c03d8e8ded2d'
+         'c9d4e392555b77034e24e9f87c5ff0b3'
+         'a0c5eef4fbb129f3ca7b569b220e6681'
+         '5feec8fb030b916c164c5447515bdfe8'
+         '7c97cf141750ad810235b1ad06eb9f75'
+         '61c5ff73c136ed07a7aadbf58db3d96a'
+         '584777ae88bce2c5659960151b64c7d8'
          '41cb5fef62715ead2dd109dbea8413d6'
          '0a5f16bfec6ad982a2f6782724cca8ba'
          '3dc88030a8f2f5a5f97266d99b149f77')
@@ -40,6 +50,7 @@ prepare() {
   # ALARM patches
   git apply ../0001-net-smsc95xx-Allow-mac-address-to-be-set-as-a-parame.patch
   git apply ../0002-arm64-dts-rockchip-disable-pwm0-on-rk3399-firefly.patch
+  git apply ../0003-Add-support-for-the-Hardkernel-ODROID-M1-board.patch
 
   cat "${srcdir}/config" > ./.config
 }
@@ -102,6 +113,7 @@ _package() {
 _package-headers() {
   pkgdesc="Header files and scripts for building modules for linux kernel - ${_desc}"
   provides=("linux-headers=${pkgver}")
+  replaces=('linux-armv8-rc-headers')
   conflicts=('linux-headers')
 
   cd $_srcname
@@ -178,8 +190,47 @@ _package-headers() {
   ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
 }
 
+_package-chromebook() {
+  pkgdesc="The Linux Kernel - ${_desc} - Chromebooks"
+  depends=('linux-aarch64-rc')
+  conflicts=('linux-aarch64-chromebook')
+  install=${pkgname}.install
 
-pkgname=("${pkgbase}" "${pkgbase}-headers")
+  cd ${_srcname}
+
+  mkdir -p "${pkgdir}/boot"
+
+  image=arch/arm64/boot/Image
+
+  chromeos_boards=(
+    'elm'
+    'gru'
+    'kukui'
+    'trogdor'
+    'asurada'
+  )
+  chromebook_dtbs=($(for b in ${chromeos_boards[@]}; do find arch/arm64/boot -name "*${b}*.dtb" | LC_COLLATE=C sort; done))
+
+  lz4 -20 -z -f -m ${image}
+  echo ${chromebook_dtbs[@]} | ../generate_chromebook_its.sh ${image}.lz4 arm64 lz4 > kernel.its
+
+  mkimage -D "-I dts -O dtb -p 2048" -f kernel.its vmlinux.uimg
+  dd if=/dev/zero of=bootloader.bin bs=512 count=1
+  echo "console=tty0 console=ttyS2,115200n8 earlyprintk=ttyS2,115200n8 console=ttyMSM0,115200n8 init=/sbin/init root=PARTUUID=%U/PARTNROFF=1 rootwait rw noinitrd" > cmdline
+  vbutil_kernel \
+    --pack vmlinux.kpart \
+    --version 1 \
+    --vmlinuz vmlinux.uimg \
+    --arch aarch64 \
+    --keyblock ../kernel.keyblock \
+    --signprivate ../kernel_data_key.vbprivk \
+    --config cmdline \
+    --bootloader bootloader.bin
+
+  cp vmlinux.kpart "${pkgdir}/boot"
+}
+
+pkgname=("${pkgbase}" "${pkgbase}-headers" "${pkgbase}-chromebook")
 for _p in ${pkgname[@]}; do
   eval "package_${_p}() {
     _package${_p#${pkgbase}}
