@@ -3,7 +3,7 @@
 
 buildarch=8
 
-_ver=6.1.9
+_ver=6.1.11
 
 pkgbase=linux-aarch64
 _srcname=linux-${_ver}
@@ -27,7 +27,8 @@ source=("https://cdn.kernel.org/pub/linux/kernel/v6.x/${_srcname}.tar.xz"
         'linux.preset'
         '60-linux.hook'
         '90-linux.hook')
-md5sums=('ab1ac5556bd2c808e62bde0db04915f6'
+
+md5sums=('f91621912cd58ac6d4128d4057980e7d'
          '7b08a199a97e3e2288e5c03d8e8ded2d'
          'c9d4e392555b77034e24e9f87c5ff0b3'
          'a0c5eef4fbb129f3ca7b569b220e6681'
