@@ -3,9 +3,9 @@
 
 buildarch=8
 
-_ver=6.1.11
+_ver=6.1.18
 
-pkgbase=linux-aarch64
+pkgbase=linux-aarch64-lts
 _srcname=linux-${_ver}
 _kernelname=${pkgbase#linux}
 _desc="AArch64 multi-platform"
@@ -17,28 +17,32 @@ license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'uboot-tools' 'vboot-utils' 'dtc')
 options=('!strip')
 source=("https://cdn.kernel.org/pub/linux/kernel/v6.x/${_srcname}.tar.xz"
-        '0001-net-smsc95xx-Allow-mac-address-to-be-set-as-a-parame.patch'
-        '0002-arm64-dts-rockchip-disable-pwm0-on-rk3399-firefly.patch'
-        '0003-Add-support-for-the-Hardkernel-ODROID-M1-board.patch'
-        'config'
-        'generate_chromebook_its.sh'
-        'kernel.keyblock'
-        'kernel_data_key.vbprivk'
-        'linux.preset'
-        '60-linux.hook'
-        '90-linux.hook')
+        "0001-net-smsc95xx-Allow-mac-address-to-be-set-as-a-parame.patch"
+        "0002-arm64-dts-rockchip-disable-pwm0-on-rk3399-firefly.patch"
+        "0003-Add-support-for-the-Hardkernel-ODROID-M1-board.patch"
+        "60-linux.hook"
+        "90-linux.hook"
+        "config"
+        "generate_chromebook_its.sh"
+        "kernel_data_key.vbprivk"
+        "kernel.keyblock"
+        "linux-aarch64-lts-chromebook.install"
+        "linux-aarch64-lts.install"
+        "linux.preset")
 
-md5sums=('f91621912cd58ac6d4128d4057980e7d'
+md5sums=('ec0e35f450b7db447dd8e47893cb75b8'
          '7b08a199a97e3e2288e5c03d8e8ded2d'
          'c9d4e392555b77034e24e9f87c5ff0b3'
          'a0c5eef4fbb129f3ca7b569b220e6681'
-         '69d2dcfec3208badeab8a6b8ce6fa82e'
-         '7c97cf141750ad810235b1ad06eb9f75'
-         '61c5ff73c136ed07a7aadbf58db3d96a'
-         '584777ae88bce2c5659960151b64c7d8'
-         '41cb5fef62715ead2dd109dbea8413d6'
          '0a5f16bfec6ad982a2f6782724cca8ba'
-         '3dc88030a8f2f5a5f97266d99b149f77')
+         '3dc88030a8f2f5a5f97266d99b149f77'
+         '4cbd8b05a83e7c764467ea999917a401'
+         '7c97cf141750ad810235b1ad06eb9f75'
+         '584777ae88bce2c5659960151b64c7d8'
+         '61c5ff73c136ed07a7aadbf58db3d96a'
+         '25a6e7432649d4e5579129c13f0043ab'
+         '9c795aa7ae26de6c214c20e878ee61bf'
+         '41cb5fef62715ead2dd109dbea8413d6')
 
 prepare() {
   cd $_srcname
