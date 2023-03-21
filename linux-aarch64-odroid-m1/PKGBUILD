@@ -3,7 +3,7 @@
 
 buildarch=8
 
-_ver=6.1.19
+_ver=6.1.20
 
 pkgbase=linux-aarch64-lts
 _srcname=linux-${_ver}
@@ -30,7 +30,7 @@ source=("https://cdn.kernel.org/pub/linux/kernel/v6.x/${_srcname}.tar.xz"
         "linux-aarch64-lts.install"
         "linux.preset")
 
-md5sums=('5b8c2f9efd453c3880d3d49aa07b407d'
+md5sums=('288b961ca3226154102ed9d3eaab2844'
          '7b08a199a97e3e2288e5c03d8e8ded2d'
          'c9d4e392555b77034e24e9f87c5ff0b3'
          'a0c5eef4fbb129f3ca7b569b220e6681'
@@ -43,7 +43,7 @@ md5sums=('5b8c2f9efd453c3880d3d49aa07b407d'
          '25a6e7432649d4e5579129c13f0043ab'
          '9c795aa7ae26de6c214c20e878ee61bf'
          '41cb5fef62715ead2dd109dbea8413d6')
-         
+
 prepare() {
   cd $_srcname
 
