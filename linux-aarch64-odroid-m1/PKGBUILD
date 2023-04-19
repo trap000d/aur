@@ -3,13 +3,13 @@
 
 buildarch=8
 
-_ver=6.1.20
+_ver=6.1.24
 
 pkgbase=linux-aarch64-lts
 _srcname=linux-${_ver}
 _kernelname=${pkgbase#linux}
 _desc="AArch64 multi-platform"
-pkgver=${_ver}
+pkgver=6.1.24
 pkgrel=1
 arch=('aarch64')
 url="http://www.kernel.org/"
@@ -30,7 +30,7 @@ source=("https://cdn.kernel.org/pub/linux/kernel/v6.x/${_srcname}.tar.xz"
         "linux-aarch64-lts.install"
         "linux.preset")
 
-md5sums=('288b961ca3226154102ed9d3eaab2844'
+md5sums=('1bc7e01e75c0b63b890282838703665a'
          '7b08a199a97e3e2288e5c03d8e8ded2d'
          'c9d4e392555b77034e24e9f87c5ff0b3'
          'a0c5eef4fbb129f3ca7b569b220e6681'
