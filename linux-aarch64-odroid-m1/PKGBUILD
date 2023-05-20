@@ -3,7 +3,7 @@
 
 buildarch=8
 
-pkgver=6.1.28
+pkgver=6.1.29
 
 pkgbase=linux-aarch64-lts
 _srcname=linux-${pkgver}
@@ -29,7 +29,7 @@ source=("https://cdn.kernel.org/pub/linux/kernel/v6.x/${_srcname}.tar.xz"
         "linux-aarch64-lts.install"
         "linux.preset")
 
-md5sums=('da2e38171f9e4a79725cdb8ad5a3fbef'
+md5sums=('0bb542f68da6ecbc463aed6721513703'
          '7b08a199a97e3e2288e5c03d8e8ded2d'
          'c9d4e392555b77034e24e9f87c5ff0b3'
          'a0c5eef4fbb129f3ca7b569b220e6681'
