@@ -82,7 +82,7 @@ package() {
   mkdir -p package/pkg-working/bin/tools/${arch}/dart-sass
   mkdir -p package/pkg-working/bin/tools/${arch}/deno_dom
   cp "${srcdir}/deno-dom-${_denodomver}/target/release/libplugin.so" "${srcdir}/${_pkgbasename}-${pkgver}/package/pkg-working/bin/tools/${arch}/deno_dom"
-  ln -sfT /usr/bin/pandoc package/pkg-working/bin/tools/pandoc
+  ln -sfT /usr/bin/pandoc package/pkg-working/bin/tools/${arch}/pandoc
   ln -sfT /usr/bin/deno package/pkg-working/bin/tools/${arch}/deno
   ln -sfT /usr/bin/sass package/pkg-working/bin/tools/${arch}/dart-sass/sass
   ln -sfT /usr/bin/esbuild package/pkg-working/bin/tools/${arch}/esbuild
