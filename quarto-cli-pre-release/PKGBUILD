@@ -2,7 +2,7 @@
 
 pkgname=quarto-cli-pre-release
 pkgver=1.4.250
-pkgrel=2
+pkgrel=1
 _pkgbasename=quarto-cli
 _denodomver="0.1.35-alpha-artifacts"
 _deno_arch="deno-x86_64-unknown-linux-gnu"
@@ -31,7 +31,7 @@ sha256sums=('4c24f7edb75684bdf0c26ffe463ddca54a90017c5e2f408ccdf8de2d3f87b2eb'
             '519709be1dfcf4743930b7f21a513d8fbf3663380020eac8ba629081395f6cc0'
             '369bc68b848532bedcb786a8fce5e52000624b9262f05ceeeb16bc851b6cf752'
             '937a39f116c4310c4989cf71b9e174b6dc7bfdd84c6632e5dd0b47508cffef86'
-            '84cd83d7933c5136d086f2e1c333d15ae378daa0e54bcf73e55486e8c058eb94'
+            '144101b799267869395ba2fe85ab8549be277b18af9545c106675f620e73a85b'
             '6c1adcf6a21ab6a2949eee9770fe19ef453758dc2e1d3f7a071f07c66d5c92b2'
             '1ee399808579aa05f38b9c27dfd23e9102f38fffb437233d360b0c076118312f')
 prepare() {
