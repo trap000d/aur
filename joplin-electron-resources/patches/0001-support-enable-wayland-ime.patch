@@ -1,0 +1,18 @@
+diff --git a/packages/lib/utils/processStartFlags.ts b/packages/lib/utils/processStartFlags.ts
+index d425b04d4..5d3b87a13 100644
+--- a/packages/lib/utils/processStartFlags.ts
++++ b/packages/lib/utils/processStartFlags.ts
+@@ -152,6 +152,13 @@ const processStartFlags = async (argv: string[], setDefaults = true) => {
+ 			continue;
+ 		}
+ 
++    if (arg === '--enable-wayland-ime') {
++      // Electron-specific flag - ignore it
++      // Allows users to enable wayland ime
++      argv.splice(0, 1);
++      continue;
++    }
++
+ 		if (arg === '--disable-smooth-scrolling') {
+ 			// Electron-specific flag - ignore it
+ 			// Allows users to disable smooth scrolling
