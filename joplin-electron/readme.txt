@@ -1,0 +1,3 @@
+1. Build resources.tar.gz from repo joplin-electtron-resources
+2. cp resources.tar.gz here
+3. BAU: makepkg... pacman...
