@@ -3,7 +3,7 @@
 
 buildarch=8
 
-pkgver=6.1.78
+pkgver=6.1.84
 
 pkgbase=linux-aarch64-odroid-m1-lts
 _srcname=linux-${pkgver}
@@ -29,13 +29,13 @@ source=("https://cdn.kernel.org/pub/linux/kernel/v6.x/${_srcname}.tar.xz"
         "linux-aarch64-odroid-m1-lts.install"
         "linux.preset")
 
-md5sums=('0a898fea5dc3cea6855a52631f5fd529'
+md5sums=('5ba4675b8172a9f951f5c01dfae6db18'
          '7b08a199a97e3e2288e5c03d8e8ded2d'
          'c9d4e392555b77034e24e9f87c5ff0b3'
          'a0c5eef4fbb129f3ca7b569b220e6681'
          '0a5f16bfec6ad982a2f6782724cca8ba'
          '3dc88030a8f2f5a5f97266d99b149f77'
-         '447c8e52147ac1774339092e38674634'
+         'e6e9a1f727ec716b71196d4d1cef528f'
          '7c97cf141750ad810235b1ad06eb9f75'
          '584777ae88bce2c5659960151b64c7d8'
          '61c5ff73c136ed07a7aadbf58db3d96a'
