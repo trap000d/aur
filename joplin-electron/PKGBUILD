@@ -1,7 +1,8 @@
 _pkgname=joplin
 pkgname=$_pkgname-electron
 pkgver=2.14.20
-pkgrel=1
+pkgrel=2
+
 _electronversion=27
 pkgdesc="Joplin Desktop for Linux, using the system Electron package"
 arch=('any')
@@ -13,26 +14,89 @@ depends=(
 )
 optdepends=('libappindicator-gtk3: for tray icon')
 conflicts=("joplin-desktop")
+
 source=(
-  "resources.tar.gz"
+  "joplin-${pkgver}.tar.gz::https://github.com/laurent22/joplin/archive/v${pkgver}.tar.gz"
   "joplin.desktop"
   "joplin.sh"
+  "0001-support-enable-wayland-ime.patch"  
+  "0002-remove-7zip.patch"  
+  "0003-asar-unpack-node.patch"  
+  "0004-update-electron.patch"
+  "0005-update-note-editor.patch"
 )
-sha256sums=('7aa19303b7213858b6d1d250fcf78415ac425b9aea4187ad2d1f53630a3014c7'
-            '9e26cd5f41d08c3c2804cf4f34cb867090371423ccbe250a890fac006d405deb'
-            'bd8324d35faaf6815217d1cf31a0b5e4df80692b0312ad17aea20d51f95efd56')
 
-prepare() {
-	sed -i "s|@electronversion@|${_electronversion}|" "$srcdir/joplin.sh"
+sha256sums=('919e9300e66bc6c24a282cbf93c43c228cdfe3227bdb1eaa50fdadef4734901b'
+            '9e26cd5f41d08c3c2804cf4f34cb867090371423ccbe250a890fac006d405deb'
+            'bd8324d35faaf6815217d1cf31a0b5e4df80692b0312ad17aea20d51f95efd56'
+            'f09a741d5c061a1551972ce3666f1150b28dbea63cd886c5dc432473bad30ece'
+            'fceb3924d2cc153df0d3a7f583532dd4720bd2412e0a4027cf4ebe6c0de398f0'
+            '73028d79f51332e0f4d639b824be173da4ae71c9069cb6c991226c66fd8f2895'
+            '2da21fd6ea579d69dc45497d44b8f0c0a0385501c77fb582a10ea11ecf541726'
+            '2223700da31ae38fba959e912132750267e189add73565072ace124760d30c46')
+
+_get_cache() {
+    if [[ "${_yarn_cache}" =~ ^/ ]]; then
+        printf "%s" "${_yarn_cache}"
+    else
+        printf "%s" "${srcdir}/${_yarn_cache}"
+    fi
 }
 
+#_get_yarn_bin() {
+#    local yarn_bin=$(yq ".yarnPath" ${srcdir}/joplin-${pkgver}/.yarnrc.yml)
+#    #Remove quotes
+#    yarn_bin="${yarn_bin%\"}"
+#    yarn_bin="${yarn_bin#\"}"
+#    printf "%s" "${srcdir}/joplin-${pkgver}/${yarn_bin}"
+#}
+
+prepare() {
+    cd ${srcdir}/joplin-${pkgver}
+    patch -Np1 -i ../0001-support-enable-wayland-ime.patch
+    patch -Np1 -i ../0002-remove-7zip.patch
+    patch -Np1 -i ../0003-asar-unpack-node.patch
+    patch -Np1 -i ../0004-update-electron.patch
+    patch -Np1 -i ../0005-update-note-editor.patch
+
+    sed -i '/"husky": ".*"/d' package.json
+    sed -i '/"@react-native-community.*"/s/.$//' package.json
+
+    rm -rf packages/app-mobile
+    rm -rf packages/app-clipper
+    rm -rf packages/app-cli
+    sed -i "s|@electronversion@|${_electronversion}|" "$srcdir/joplin.sh"
+}
+
+build() {
+    local cache=$(_get_cache)
+#    local yarn_bin=$(_get_yarn_bin)
+    msg2 "Yarn cache directory: $cache"
+    cd "${srcdir}/${_pkgname}-${pkgver}"
+
+    # Force Lang
+    # INFO: https://github.com/alfredopalhares/joplin-pkgbuild/issues/25
+    export LANG=en_US.utf8
+
+    msg2 "Installing dependencies through Yarn 3..."
+    # FSevents is on the optinal dependencies and its Mac Only
+    export YARN_ENABLE_IMMUTABLE_INSTALLS=false
+    export SHARP_IGNORE_GLOBAL_LIBVIPS=true
+
+    #eval $yarn_bin
+    msg2 "Building the workspace"
+    yarn install
+    yarn workspace @joplin/app-desktop dist --linux --publish=never
+}
+
+
 package() {
-  install -vDm644 ${srcdir}/app.asar -t "${pkgdir}/usr/lib/${_pkgname}"
-  cp -vr ${srcdir}/app.asar.unpacked -t "${pkgdir}/usr/lib/${_pkgname}"
-  cp -vr ${srcdir}/build -t "${pkgdir}/usr/lib/${_pkgname}"
+  install -vDm644 ${srcdir}/${_pkgname}-${pkgver}/packages/app-desktop/dist/linux-unpacked/resources/app.asar -t "${pkgdir}/usr/lib/${_pkgname}"
+  cp -vr ${srcdir}/${_pkgname}-${pkgver}/packages/app-desktop/dist/linux-unpacked/resources/app.asar.unpacked -t "${pkgdir}/usr/lib/${_pkgname}"
+  cp -vr ${srcdir}/${_pkgname}-${pkgver}/packages/app-desktop/dist/linux-unpacked/resources/build -t "${pkgdir}/usr/lib/${_pkgname}"
 
   for i in 16 32 64 128 256 512 1024; do
-    [[ -f "${srcdir}/build/icons/${i}x${i}.png" ]] && install -vDm644 ${srcdir}/build/icons/${i}x${i}.png "${pkgdir}/usr/share/icons/hicolor/${i}x${i}/apps/${_pkgname}.png"
+    [[ -f "${srcdir}/packages/app-desktop/build/icons/${i}x${i}.png" ]] && install -vDm644 ${srcdir}/build/icons/${i}x${i}.png "${pkgdir}/usr/share/icons/hicolor/${i}x${i}/apps/${_pkgname}.png"
   done
 
   install -vDm755 "${srcdir}/${_pkgname}.sh" "${pkgdir}/usr/bin/joplin-desktop"

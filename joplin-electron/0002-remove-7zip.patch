@@ -1,0 +1,22 @@
+diff --git a/packages/app-desktop/package.json b/packages/app-desktop/package.json
+index af4136447..0656a82d1 100644
+--- a/packages/app-desktop/package.json
++++ b/packages/app-desktop/package.json
+@@ -38,8 +38,7 @@
+       "build/defaultPlugins/**",
+       "build/pdf.worker.min.js",
+       "build/tesseract.js/**",
+-      "build/tesseract.js-core/**",
+-      "build/7zip/**"
++      "build/tesseract.js-core/**"
+     ],
+     "afterAllArtifactBuild": "./generateSha512.js",
+     "asar": true,
+@@ -119,7 +118,6 @@
+   },
+   "homepage": "https://github.com/laurent22/joplin#readme",
+   "devDependencies": {
+-    "7zip-bin": "5.2.0",
+     "@electron/rebuild": "3.3.0",
+     "@joplin/default-plugins": "~2.14",
+     "@joplin/tools": "~2.14",
