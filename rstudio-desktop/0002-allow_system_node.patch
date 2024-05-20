@@ -1,0 +1,20 @@
+diff -ru a/rstudio-2024.04.1-748/src/cpp/session/CMakeLists.txt b/rstudio-2024.04.1-748/src/cpp/session/CMakeLists.txt
+--- a/rstudio-2024.04.1-748/src/cpp/session/CMakeLists.txt	2024-05-07 06:31:08.000000000 +1200
++++ b/rstudio-2024.04.1-748/src/cpp/session/CMakeLists.txt	2024-05-21 10:33:50.351362947 +1200
+@@ -697,10 +697,12 @@
+            DESTINATION "${RSTUDIO_INSTALL_SUPPORTING}/resources")
+ 
+    # install node
+-   install(
+-      DIRECTORY "${RSTUDIO_DEPENDENCIES_DIR}/common/node/${RSTUDIO_INSTALLED_NODE_VERSION}/"
+-      DESTINATION "${RSTUDIO_INSTALL_BIN}/node"
+-      USE_SOURCE_PERMISSIONS)
++   if(NOT RSTUDIO_USE_SYSTEM_NODE)
++      install(
++         DIRECTORY "${RSTUDIO_DEPENDENCIES_DIR}/common/node/${RSTUDIO_INSTALLED_NODE_VERSION}/"
++         DESTINATION "${RSTUDIO_INSTALL_BIN}/node"
++         USE_SOURCE_PERMISSIONS)
++   endif()
+ 
+    # install quarto (or pandoc if quarto disabled)
+    if(QUARTO_ENABLED)
