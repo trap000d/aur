@@ -1,7 +1,7 @@
 pkgbase = rstudio-desktop
 	pkgdesc = A powerful and productive integrated development environment (IDE) for R programming language
 	pkgver = 2024.04.1.748
-	pkgrel = 4
+	pkgrel = 5
 	url = https://www.rstudio.com/products/rstudio/
 	arch = x86_64
 	license = AGPL3
@@ -46,6 +46,6 @@ pkgbase = rstudio-desktop
 	sha256sums = SKIP
 	sha256sums = 723626bfe05dafa545e135e8e61a482df111f488583fef155301acc5ecbbf921
 	sha256sums = 286925c442c1818979714feeec1577f03ae8a3527d2478b0f55238e2272a0b9e
-	sha256sums = d14ef3792965b65dcf5e77f4e24c7f1e62743c9c9ddf126e6669420e502088df
+	sha256sums = ad4bd3076ff2bff7d075e3928a7e55c618fa744e3bf5d3d387bf70e01ff96c2f
 
 pkgname = rstudio-desktop
