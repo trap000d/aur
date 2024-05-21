@@ -1,0 +1,12 @@
+diff -ru joplin-2.14.20.original/packages/lib/package.json joplin-2.14.20/packages/lib/package.json
+--- joplin-2.14.20.original/packages/lib/package.json	2024-03-19 05:01:54.000000000 +1300
++++ joplin-2.14.20/packages/lib/package.json	2024-05-21 21:49:05.137851767 +1200
+@@ -24,7 +24,7 @@
+     "@types/node-rsa": "1.1.4",
+     "@types/react": "18.2.48",
+     "@types/uuid": "9.0.7",
+-    "canvas": "2.11.2",
++    "canvas": "Automattic/node-canvas#master",
+     "clean-html": "1.5.0",
+     "jest": "29.7.0",
+     "pdfjs-dist": "3.11.174",
