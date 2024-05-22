@@ -1,6 +1,6 @@
 _pkgname=joplin
 pkgname=$_pkgname-electron
-pkgver=2.14.21
+pkgver=2.14.22
 pkgrel=1
 
 _electronversion=27
@@ -26,7 +26,7 @@ source=(
   "0005-update-note-editor.patch"
 )
 
-sha256sums=('65014ecf5c68be72c303f3e7a3fb0379e3b8182e22e89bd4c9d58d93caffaa04'
+sha256sums=('5cbda5b19aa41ff2371a13a08a74c08f321c8320bbbe729392d4ed5d5e65e826'
             '9e26cd5f41d08c3c2804cf4f34cb867090371423ccbe250a890fac006d405deb'
             'bd8324d35faaf6815217d1cf31a0b5e4df80692b0312ad17aea20d51f95efd56'
             'f09a741d5c061a1551972ce3666f1150b28dbea63cd886c5dc432473bad30ece'
