@@ -1,7 +1,7 @@
 _pkgname=joplin
 pkgname=$_pkgname-electron
 pkgver=2.14.22
-pkgrel=1
+pkgrel=2
 
 _electronversion=27
 pkgdesc="Joplin Desktop for Linux, using the system Electron package"
@@ -32,7 +32,7 @@ sha256sums=('5cbda5b19aa41ff2371a13a08a74c08f321c8320bbbe729392d4ed5d5e65e826'
             'f09a741d5c061a1551972ce3666f1150b28dbea63cd886c5dc432473bad30ece'
             'fceb3924d2cc153df0d3a7f583532dd4720bd2412e0a4027cf4ebe6c0de398f0'
             '73028d79f51332e0f4d639b824be173da4ae71c9069cb6c991226c66fd8f2895'
-            '2da21fd6ea579d69dc45497d44b8f0c0a0385501c77fb582a10ea11ecf541726'
+            '3305f03e964bb050d1f39adaff84880733587ac846fcb7cf042b1b62feb286df'
             '2223700da31ae38fba959e912132750267e189add73565072ace124760d30c46')
 
 _get_cache() {
@@ -82,6 +82,14 @@ build() {
     # FSevents is on the optinal dependencies and its Mac Only
     export YARN_ENABLE_IMMUTABLE_INSTALLS=false
     export SHARP_IGNORE_GLOBAL_LIBVIPS=true
+
+    # node-gyp or node have a bug that prevents building with "text file busy"
+    # if the kernel is too fast, so we have to disable IO_URING support. This
+    # is cleary a hack and needs to be removed as soon as possible
+    # nodejs/node#48444 is the necro bumped thread
+    # originally from docker
+    # https://github.com/nodejs/node/issues/48444
+    export UV_USE_IO_URING=0
 
     #eval $yarn_bin
     msg2 "Building the workspace"

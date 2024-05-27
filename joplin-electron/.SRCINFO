@@ -1,7 +1,7 @@
 pkgbase = joplin-electron
 	pkgdesc = Joplin Desktop for Linux, using the system Electron package
 	pkgver = 2.14.22
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/laurent22/joplin
 	arch = any
 	license = AGPL-3.0
@@ -32,7 +32,7 @@ pkgbase = joplin-electron
 	sha256sums = f09a741d5c061a1551972ce3666f1150b28dbea63cd886c5dc432473bad30ece
 	sha256sums = fceb3924d2cc153df0d3a7f583532dd4720bd2412e0a4027cf4ebe6c0de398f0
 	sha256sums = 73028d79f51332e0f4d639b824be173da4ae71c9069cb6c991226c66fd8f2895
-	sha256sums = 2da21fd6ea579d69dc45497d44b8f0c0a0385501c77fb582a10ea11ecf541726
+	sha256sums = 3305f03e964bb050d1f39adaff84880733587ac846fcb7cf042b1b62feb286df
 	sha256sums = 2223700da31ae38fba959e912132750267e189add73565072ace124760d30c46
 
 pkgname = joplin-electron
