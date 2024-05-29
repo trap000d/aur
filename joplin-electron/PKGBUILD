@@ -1,7 +1,7 @@
 _pkgname=joplin
 pkgname=$_pkgname-electron
 pkgver=2.14.22
-pkgrel=2
+pkgrel=1
 
 _electronversion=27
 pkgdesc="Joplin Desktop for Linux, using the system Electron package"
@@ -20,7 +20,6 @@ source=(
   "joplin.desktop"
   "joplin.sh"
   "0001-support-enable-wayland-ime.patch"  
-  "0002-remove-7zip.patch"  
   "0003-asar-unpack-node.patch"  
   "0004-update-electron.patch"
   "0005-update-note-editor.patch"
@@ -30,11 +29,10 @@ sha256sums=('5cbda5b19aa41ff2371a13a08a74c08f321c8320bbbe729392d4ed5d5e65e826'
             '9e26cd5f41d08c3c2804cf4f34cb867090371423ccbe250a890fac006d405deb'
             'bd8324d35faaf6815217d1cf31a0b5e4df80692b0312ad17aea20d51f95efd56'
             'f09a741d5c061a1551972ce3666f1150b28dbea63cd886c5dc432473bad30ece'
-            'fceb3924d2cc153df0d3a7f583532dd4720bd2412e0a4027cf4ebe6c0de398f0'
             '73028d79f51332e0f4d639b824be173da4ae71c9069cb6c991226c66fd8f2895'
             '3305f03e964bb050d1f39adaff84880733587ac846fcb7cf042b1b62feb286df'
             '2223700da31ae38fba959e912132750267e189add73565072ace124760d30c46')
-
+            
 _get_cache() {
     if [[ "${_yarn_cache}" =~ ^/ ]]; then
         printf "%s" "${_yarn_cache}"
@@ -54,7 +52,6 @@ _get_cache() {
 prepare() {
     cd ${srcdir}/joplin-${pkgver}
     patch -Np1 -i ../0001-support-enable-wayland-ime.patch
-    patch -Np1 -i ../0002-remove-7zip.patch
     patch -Np1 -i ../0003-asar-unpack-node.patch
     patch -Np1 -i ../0004-update-electron.patch
     patch -Np1 -i ../0005-update-note-editor.patch
