@@ -14,7 +14,7 @@ _pandocver="current"
 _sociver="4.0.3"
 _quarto="FALSE"
 
-pkgrel=4
+pkgrel=5
 pkgdesc="A powerful and productive integrated development environment (IDE) for R programming language"
 arch=('x86_64')
 url="https://github.com/rstudio/rstudio"
@@ -181,7 +181,7 @@ package() {
 
     # Symlink main binary
     install -d "${pkgdir}/usr/bin"
-    ln -s "/usr/lib/rstudio/bin/rstudio" "${pkgdir}/usr/bin/rstudio"
+    ln -s "/usr/lib/rstudio/rstudio" "${pkgdir}/usr/bin/rstudio"
 
     # BUGFIX: qt5-webengine isn't init'ing properly. Likely an Rstudio bug.
     install -Dm 644 "${srcdir}/qt.conf" "${pkgdir}/usr/lib/qt/libexec/qt.conf"
