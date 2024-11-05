@@ -1,6 +1,6 @@
 _pkgname=joplin
 pkgname=$_pkgname-electron
-pkgver=3.1.20
+pkgver=3.1.22
 pkgrel=1
 
 _electronversion=""
@@ -10,9 +10,11 @@ url="https://github.com/laurent22/joplin"
 license=('AGPL-3.0')
 depends=(
   "electron${_electronversion}" 'gtk3' 'libexif' 'libgsf' 'libjpeg-turbo' 'libwebp' 'libxss'
-  'nss' 'orc' 'rsync' 'libvips'
+  'nss' 'orc' 'rsync' 'libvips' 'nodejs-lts-iron'
 )
 optdepends=('libappindicator-gtk3: for tray icon')
+makedepends=('npm' 'git')
+
 conflicts=("joplin-desktop")
 
 source=(
@@ -20,14 +22,16 @@ source=(
   "joplin.desktop"
   "joplin.sh"
   "0001-support-enable-wayland-ime.patch"  
-  "0003-asar-unpack-node.patch"  
+  "0003-asar-unpack-node.patch"
+  "0004-nan.patch"
 )
 
-sha256sums=('90de45f98b22d18189ccb5012642a67c03c3f77498133def97543d417b83e518'
+sha256sums=('8f9275a6fd28d80300daaec90db427a3a82d10df61f78163567e158ef3933ce5'
             '9e26cd5f41d08c3c2804cf4f34cb867090371423ccbe250a890fac006d405deb'
             'bd8324d35faaf6815217d1cf31a0b5e4df80692b0312ad17aea20d51f95efd56'
             'f09a741d5c061a1551972ce3666f1150b28dbea63cd886c5dc432473bad30ece'
-            '73028d79f51332e0f4d639b824be173da4ae71c9069cb6c991226c66fd8f2895')
+            '73028d79f51332e0f4d639b824be173da4ae71c9069cb6c991226c66fd8f2895'
+            'b6f7bd6467750a89ea465f136e1fe2f8c988ca6f587cef6a970c4721fa4ea0e3')
             
 _get_cache() {
     if [[ "${_yarn_cache}" =~ ^/ ]]; then
@@ -49,6 +53,7 @@ prepare() {
     cd ${srcdir}/joplin-${pkgver}
     patch -Np1 -i ../0001-support-enable-wayland-ime.patch
     patch -Np1 -i ../0003-asar-unpack-node.patch
+    patch -Np1 -i ../0004-nan.patch
 
     sed -i '/"husky": ".*"/d' package.json
     #sed -i '/"@react-native-community.*"/s/.$//' package.json
