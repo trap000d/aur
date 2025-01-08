@@ -1,6 +1,6 @@
 pkgbase = joplin-electron
 	pkgdesc = Joplin Desktop for Linux, using the system Electron package
-	pkgver = 3.1.24
+	pkgver = 3.2.8
 	pkgrel = 1
 	url = https://github.com/laurent22/joplin
 	arch = any
@@ -21,17 +21,15 @@ pkgbase = joplin-electron
 	depends = nodejs-lts-iron
 	optdepends = libappindicator-gtk3: for tray icon
 	conflicts = joplin-desktop
-	source = joplin-3.1.24.tar.gz::https://github.com/laurent22/joplin/archive/v3.1.24.tar.gz
+	source = joplin-3.2.8.tar.gz::https://github.com/laurent22/joplin/archive/v3.2.8.tar.gz
 	source = joplin.desktop
 	source = joplin.sh
 	source = 0001-support-enable-wayland-ime.patch
 	source = 0003-asar-unpack-node.patch
-	source = 0004-nan.patch
-	sha256sums = f529bc54928dcee1fcf67bcba54abee856afb996b7bc4e022055a5d92d523017
+	sha256sums = c796624a0c2dc449dfeca3df9051983f101086e76e4a96864e724ac9b13d8aef
 	sha256sums = 9e26cd5f41d08c3c2804cf4f34cb867090371423ccbe250a890fac006d405deb
 	sha256sums = bd8324d35faaf6815217d1cf31a0b5e4df80692b0312ad17aea20d51f95efd56
 	sha256sums = f09a741d5c061a1551972ce3666f1150b28dbea63cd886c5dc432473bad30ece
 	sha256sums = 73028d79f51332e0f4d639b824be173da4ae71c9069cb6c991226c66fd8f2895
-	sha256sums = b6f7bd6467750a89ea465f136e1fe2f8c988ca6f587cef6a970c4721fa4ea0e3
 
 pkgname = joplin-electron
