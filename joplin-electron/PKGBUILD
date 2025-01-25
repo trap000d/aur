@@ -1,6 +1,6 @@
 _pkgname=joplin
 pkgname=$_pkgname-electron
-pkgver=3.2.11
+pkgver=3.2.12
 pkgrel=1
 
 _electronversion=""
@@ -25,7 +25,7 @@ source=(
   "0003-asar-unpack-node.patch"
 )
 
-sha256sums=('f668b1fd5d73d469e6ed3aa0ba06ef5e18c942171239848157ee230bac334601'
+sha256sums=('4b292df1b1e5042f671c58ccb3241296064c8e96a1c32d647bc38f7c54311904'
             '9e26cd5f41d08c3c2804cf4f34cb867090371423ccbe250a890fac006d405deb'
             'bd8324d35faaf6815217d1cf31a0b5e4df80692b0312ad17aea20d51f95efd56'
             'f09a741d5c061a1551972ce3666f1150b28dbea63cd886c5dc432473bad30ece'
