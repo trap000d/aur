@@ -1,0 +1,12 @@
+diff -ru seafile-client-9.0.13.original/src/message-poller.cpp seafile-client-9.0.13/src/message-poller.cpp
+--- seafile-client-9.0.13.original/src/message-poller.cpp	2025-03-31 15:04:36.000000000 +1300
++++ seafile-client-9.0.13/src/message-poller.cpp	2025-04-05 20:00:02.691476617 +1300
+@@ -1,6 +1,8 @@
+ #include <QTimer>
+ #include <QDateTime>
++#include <QRegularExpression>
+ #include <QJsonDocument>
++#include <QJsonValue>
+ 
+ #include "utils/utils.h"
+ #include "utils/translate-commit-desc.h"
