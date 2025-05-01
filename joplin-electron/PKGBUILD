@@ -1,6 +1,6 @@
 _pkgname=joplin
 pkgname=$_pkgname-electron
-pkgver=3.2.13
+pkgver=3.3.9
 pkgrel=1
 
 _electronversion=""
@@ -25,7 +25,7 @@ source=(
   "0003-asar-unpack-node.patch"
 )
 
-sha256sums=('3280f29a8f7955f0d09540aac7fb55c01e43b8d2e8c20fe717a6eb88b25c73a3'
+sha256sums=('8b739646badf38e823a7f7f29fb4804276a9714e9c7f91a0d02fcc0d6de1a26a'
             '9e26cd5f41d08c3c2804cf4f34cb867090371423ccbe250a890fac006d405deb'
             'bd8324d35faaf6815217d1cf31a0b5e4df80692b0312ad17aea20d51f95efd56'
             'f09a741d5c061a1551972ce3666f1150b28dbea63cd886c5dc432473bad30ece'
@@ -53,6 +53,7 @@ prepare() {
     patch -Np1 -i ../0003-asar-unpack-node.patch
 
     sed -i '/"husky": ".*"/d' package.json
+    sed -i 's/"postinstall": "husky && gulp build"/"postinstall": "gulp build"/' package.json
     #sed -i '/"@react-native-community.*"/s/.$//' package.json
 
     #rm -rf packages/app-mobile
