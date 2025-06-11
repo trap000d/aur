@@ -1,6 +1,6 @@
 # Maintainer: Aleksandr Beliaev <trap000d@gmail.com>
 
-pkgname=rstudio-desktop
+pkgname=rstudio-desktop-qt
 _vermajor=2024
 _verminor=04
 _verpatch=2
@@ -13,7 +13,7 @@ _pandocver="current"
 _sociver="4.0.3"
 _quarto="FALSE"
 
-pkgrel=2
+pkgrel=3
 pkgdesc="A powerful and productive integrated development environment (IDE) for R programming language"
 arch=('x86_64')
 url="https://github.com/rstudio/rstudio"
@@ -75,20 +75,20 @@ prepare() {
 
 build() {
     # Quarto set up
-    if (pacman -Q quarto >/dev/null 2>/dev/null) ; then
-        _quarto="TRUE"
-        msg "Quarto is installed, include it to build"
-        cd "${srcdir}/${_srcname}/dependencies"
-        install -d quarto/bin/tools
-        ln -sfT /usr/bin/quarto quarto/bin/quarto
-        ln -sfT /usr/bin/pandoc quarto/bin/tools/pandoc
-    else
+    #if (pacman -Q quarto >/dev/null 2>/dev/null) ; then
+    #    _quarto="TRUE"
+    #    msg "Quarto is installed, include it to build"
+    #    cd "${srcdir}/${_srcname}/dependencies"
+    #    install -d quarto/bin/tools
+    #    ln -sfT /usr/bin/quarto quarto/bin/quarto
+    #    ln -sfT /usr/bin/pandoc quarto/bin/tools/pandoc
+    #else
         _quarto="FALSE"
-        msg "Quarto is not installed, use Pandoc"
+    #    msg "Quarto is not installed, use Pandoc"
         cd "${srcdir}/${_srcname}/dependencies"
         install -d pandoc/${_pandocver}/bin/tools
         ln -sfT /usr/bin/pandoc pandoc/${_pandocver}/bin/tools/pandoc
-    fi
+    #fi
 
     cd "${srcdir}/${_srcname}/dependencies/soci-${_sociver}"
     msg "Building SOCI libs..."
@@ -178,7 +178,7 @@ package() {
     DESTDIR="${pkgdir}" cmake --install build
 
     # Install the license
-    install -Dm 644 "${srcdir}/${_srcname}/COPYING" "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+    #install -Dm 644 "${srcdir}/${_srcname}/COPYING" "${pkgdir}/usr/share/licenses/rs/COPYING"
 
     # Symlink main binary
     install -d "${pkgdir}/usr/bin"
