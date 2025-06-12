@@ -1,5 +1,5 @@
-pkgbase = linux-aarch64-stable
-	pkgver = 6.13.12
+pkgbase = linux-aarch64-lts
+	pkgver = 6.12.33
 	pkgrel = 1
 	url = http://www.kernel.org/
 	arch = aarch64
@@ -14,8 +14,8 @@ pkgbase = linux-aarch64-stable
 	makedepends = vboot-utils
 	makedepends = dtc
 	options = !strip
-	source = http://www.kernel.org/pub/linux/kernel/v6.x/linux-6.13.tar.xz
-	source = http://www.kernel.org/pub/linux/kernel/v6.x/patch-6.13.12.xz
+	source = http://www.kernel.org/pub/linux/kernel/v6.x/linux-6.12.tar.xz
+	source = http://www.kernel.org/pub/linux/kernel/v6.x/patch-6.12.33.xz
 	source = 0001-net-smsc95xx-Allow-mac-address-to-be-set-as-a-parame.patch
 	source = 0002-arm64-dts-rockchip-disable-pwm0-on-rk3399-firefly.patch
 	source = 0003-pps-Compatibility-hack-should-be-X86-specific.patch
@@ -24,19 +24,19 @@ pkgbase = linux-aarch64-stable
 	source = kernel.keyblock
 	source = kernel_data_key.vbprivk
 	source = linux.preset
-	md5sums = 7a1ec5edbbdcaad287ca3c16f71abaa6
-	md5sums = d57945f7d3117df7a205ae6666e268c5
+	md5sums = 844fae6a58c7f43af44d8cea8484b4a1
+	md5sums = f2d0d0b17fc026269926243d79584ad5
 	md5sums = 7862339da94da0b7958e61e2210760a7
 	md5sums = c064a0a49f4ed7d487d482ca73c75178
 	md5sums = 416b7c6ef37cc0edb6cb67cf618360f5
-	md5sums = 51a71c64314630485004a6ff38742f59
+	md5sums = f2a3f4c7ad96afb4716311d3bbcc0ed2
 	md5sums = 7c97cf141750ad810235b1ad06eb9f75
 	md5sums = 61c5ff73c136ed07a7aadbf58db3d96a
 	md5sums = 584777ae88bce2c5659960151b64c7d8
 	md5sums = 33ba82001fca579d43172a6db25d6aca
 
-pkgname = linux-aarch64-stable
+pkgname = linux-aarch64-lts
 
-pkgname = linux-aarch64-stable-headers
+pkgname = linux-aarch64-lts-headers
 
-pkgname = linux-aarch64-stable-chromebook
+pkgname = linux-aarch64-lts-chromebook
