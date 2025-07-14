@@ -1,0 +1,102 @@
+# Maintainer: feinedsquirrel < feinedsquirrel at gmail dot com >
+# Maintainer: edpibu < archlinux at edgarpierre dot fr >
+
+# instructions by photoview author:
+# https://photoview.github.io/docs/installation-manual/
+
+
+_pkg=photoview
+pkgname=${_pkg}-git
+pkgver=r1349.124b6d34
+pkgrel=1
+pkgdesc="Photo gallery for self-hosted personal servers"
+arch=('x86_64')
+url="https://github.com/${_pkg}/${_pkg}"
+license=('AGPL3')
+
+depends=(
+  'nodejs'
+  'libjpeg-turbo'
+  'libheif'
+  'libwebp'
+  'blas'
+  'cblas'
+  'lapack'
+  'dlib'
+)
+makedepends=(
+  'git'
+  'go'
+  'npm'
+)
+optdepends=(
+  'mariadb: for mysql database backend'
+  'postgresql: for database backend'
+  'sqlite: for database backend'
+  'darktable: for RAW image support'
+  'ffmpeg: for video file playback in the browser'
+  'perl-image-exiftool: for faster and more reliable EXIF metadata parsing'
+)
+conflicts=(
+  'golang-photoview'
+  'photoview'
+)
+replaces=(
+  'golang-photoview'
+  'photoview'
+)
+backup=(
+  "etc/${_pkg}.env"
+)
+install=${_pkg}.install
+source=(
+  "${pkgname}::git+https://github.com/${_pkg}/${_pkg}"
+)
+sha512sums=('SKIP'
+            'aa9b3fe32883af83c183a3cf1d0646b6140f2294c5b58d6df3cac4b1f9b89300f955f46fa125d50ccaac866ab60a752d42f547af19772159e6a2f176c0cf6369')
+pkgver() {
+    cd ${pkgname}
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  cd "${srcdir}/${pkgname}/ui"
+  npm ci --yes --omit=dev --ignore-scripts
+  npm run build
+
+  cd "${srcdir}/${pkgname}/api"
+  export CGO_CPPFLAGS="${CPPFLAGS}"
+  export CGO_CFLAGS="${CFLAGS}"
+  export CGO_CXXFLAGS="${CXXFLAGS}"
+  export CGO_LDFLAGS="${LDFLAGS}"
+  export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly -modcacherw"
+  go build -v -o photoview .
+}
+
+package() {
+  # --ui--
+  cd "${srcdir}/${pkgname}/ui/dist"
+  find * -type f -exec install -Dm0644 "{}" "${pkgdir}/usr/share/webapps/${_pkg}-ui/{}" \;
+
+  # --api--
+  # binary
+  install -Dm0755 -t "${pkgdir}/usr/lib/${_pkg}" "${srcdir}/${pkgname}/api/${_pkg}"
+  install -d "${pkgdir}/usr/bin"
+  ln -s "/usr/lib/${_pkg}/${_pkg}" "${pkgdir}/usr/bin/"
+  # data/
+  cd "${srcdir}/${pkgname}/api"
+  find data -type f -exec install -Dm0644 "{}" "${pkgdir}/usr/lib/${_pkg}/{}" \;
+  # .env file
+  install -Dm0644 "${srcdir}/${pkgname}/api/example.env" "${pkgdir}/etc/${_pkg}.env"
+
+  # sqlite and cache dirs
+  cd "${pkgdir}"
+  install -d "${pkgdir}/var/lib/${_pkg}"
+  install -d "${pkgdir}/var/cache/${_pkg}/media_cache"
+
+  # systemd unit file
+  install -Dm0644 -t "${pkgdir}/usr/lib/systemd/system" "${srcdir}/${pkgname}/systemd/${_pkg}.service"
+  # user and group management
+  install -Dm0644 "${srcdir}/${pkgname}/systemd/${_pkg}.sysusers.conf" "${pkgdir}/usr/lib/sysusers.d/${_pkg}.conf"
+  install -Dm0644 "${srcdir}/${pkgname}/systemd/${_pkg}.tmpfiles" "${pkgdir}/usr/lib/tmpfiles.d/${_pkg}.conf"
+}
