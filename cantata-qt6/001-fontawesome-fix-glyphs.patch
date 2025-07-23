@@ -1,0 +1,29 @@
+diff -Naur cantata-3.3.1-patched/support/QtAwesome.cpp cantata-3.3.1-qtio/support/QtAwesome.cpp
+--- cantata-3.3.1-patched/support/QtAwesome.cpp	2025-07-17 16:26:48.816280694 -0700
++++ cantata-3.3.1-qtio/support/QtAwesome.cpp	2025-07-15 09:45:33.460407601 -0700
+@@ -431,20 +431,15 @@
+ ///
+ ///    QLabel* label = new QLabel(QChar( icon_group ));
+ ///    label->setFont(awesome->font(style::fas, 16))
+-
+ QFont QtAwesome::font(int style, int size) const
+ {
+-    if (!_fontDetails.contains(style)) return QFont();
+-
+-    QFont font(_fontDetails[style].fontFamily());
+-    font.setPixelSize(size);
+-    font.setWeight(_fontDetails[style].fontWeight());
++	if (!_fontDetails.contains(style)) return QFont();
+ 
+-    if (style == fa::fa_solid) {
+-        font.setStyleName("Solid");  // <-- This is the fix
+-    }
++	QFont font(_fontDetails[style].fontFamily());
++	font.setPixelSize(size);
++	font.setWeight(_fontDetails[style].fontWeight());
+ 
+-    return font;
++	return font;
+ }
+ 
+ QString QtAwesome::fontName(int style) const

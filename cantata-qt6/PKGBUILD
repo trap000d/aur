@@ -4,7 +4,7 @@
 
 pkgname=cantata-qt6
 pkgver=3.3.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Qt6 graphical client for Music Player Daemon (MPD), nullobsi fork"
 arch=(x86_64 i686 aarch64 armv7h)
 url="https://github.com/nullobsi/cantata"
@@ -32,12 +32,15 @@ optdepends=('perl-uri: Dynamic playlist'
 provides=(cantata)
 conflicts=(cantata)
 source=("cantata-nullobsi::git+https://github.com/nullobsi/cantata.git#tag=v${pkgver}"
-        "001-disable-local-folders.diff")
+        "001-fontawesome-fix-glyphs.patch"
+        "002-disable-local-folders.patch")
 sha256sums=('c282fd13610e6521696a9caaa5772952b16a9ff2a64192fdc379d9074ebdb96c'
+            'eb5f06104fe521ffb97c3cf0c47ae117066d3a025bee302ba54fefff9799dc27'
             '06277601d7068e6ba4f8b8909537234f7f04b391a99bc518401d000ab5be946b')
 prepare() {
   cd "cantata-nullobsi"
-  patch -Np1 -i ../001-disable-local-folders.diff
+  patch -Np1 -R -i ../001-fontawesome-fix-glyphs.patch  
+  patch -Np1 -i ../002-disable-local-folders.patch
 }
 
 build() {

@@ -1,0 +1,19 @@
+diff -Nru cantata-nullobsi.original/gui/folderpage.cpp cantata-nullobsi/gui/folderpage.cpp
+--- cantata-nullobsi.original/gui/folderpage.cpp	2025-06-20 16:32:15.609913834 +1200
++++ cantata-nullobsi/gui/folderpage.cpp	2025-06-20 16:34:54.890041533 +1200
+@@ -32,11 +32,11 @@
+ 	mpdBrowse = new MpdBrowsePage(this);
+ 	addPage(mpdBrowse->name(), mpdBrowse->icon(), mpdBrowse->title(), mpdBrowse->descr(), mpdBrowse);
+ 
+-	homeBrowse = new LocalFolderBrowsePage(true, this);
+-	addPage(homeBrowse->name(), homeBrowse->icon(), homeBrowse->title(), homeBrowse->descr(), homeBrowse);
++	// homeBrowse = new LocalFolderBrowsePage(true, this);
++	// addPage(homeBrowse->name(), homeBrowse->icon(), homeBrowse->title(), homeBrowse->descr(), homeBrowse);
+ 
+-	LocalFolderBrowsePage* rootBrowse = new LocalFolderBrowsePage(false, this);
+-	addPage(rootBrowse->name(), rootBrowse->icon(), rootBrowse->title(), rootBrowse->descr(), rootBrowse);
++	// LocalFolderBrowsePage* rootBrowse = new LocalFolderBrowsePage(false, this);
++	// addPage(rootBrowse->name(), rootBrowse->icon(), rootBrowse->title(), rootBrowse->descr(), rootBrowse);
+ 
+ 	Configuration config(metaObject()->className());
+ 	load(config);
