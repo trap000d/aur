@@ -1,0 +1,21 @@
+pkgbase = miniflux
+	pkgdesc = Minimalist and opinionated feed reader
+	pkgver = 2.2.10
+	pkgrel = 1
+	url = https://miniflux.app
+	arch = aarch64
+	license = Apache-2.0
+	makedepends = git
+	makedepends = go
+	depends = glibc
+	optdepends = postgresql: for local PostgreSQL instance
+	options = !lto
+	backup = etc/miniflux.conf
+	source = miniflux::git+https://github.com/miniflux/v2.git#tag=2.2.10
+	source = sysusers.conf
+	sha512sums = e92607a13f4617089220e630d6085cf7302f8ff2ef5d54b639b90153e01e9af30ec4ca0523a838a0476065d4b377e9dda62c12d6a6819e0bf47b2f4217796003
+	sha512sums = 4a51cccf15f37da66c56e4721171ab858b894f4f74f3210fb275b437fc7fa99cce21a8a98703462e07163ce3f9ea35d8e2a9f8b5ad147cb819092a037c42c17e
+	b2sums = f7d4ce3277963584a08aa78e8cb042957887c84af4991e0bae68519c8bfa1499d4844c1b477427301da4cbceee2e9671041c0cae0c1b3b0002f54f3d27999aa8
+	b2sums = 6c1bbc5bebb319d921c9f511a156c4e578811319423e99cead87f2044e6269abf38654733376b83f8dbb7432c816f795918935bae741529d7395f249027b2932
+
+pkgname = miniflux

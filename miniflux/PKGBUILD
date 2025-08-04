@@ -1,0 +1,94 @@
+# Maintainer: George Rawlinson <grawlinson@archlinux.org>
+# Contributor: Thor77 <thor77 at thor77 dot org>
+# Contributor: Clar Charr <clar@charr.xyz>
+# Contributor: somini <dev at somini dot xyz>
+
+pkgname=miniflux
+pkgver=2.2.10
+pkgrel=1
+pkgdesc='Minimalist and opinionated feed reader'
+arch=('aarch64')
+url='https://miniflux.app'
+license=('Apache-2.0')
+depends=('glibc')
+optdepends=(
+  'postgresql: for local PostgreSQL instance'
+)
+makedepends=('git' 'go')
+backup=('etc/miniflux.conf')
+options=('!lto')
+source=(
+  "$pkgname::git+https://github.com/miniflux/v2.git#tag=$pkgver"
+  'sysusers.conf'
+)
+sha512sums=('e92607a13f4617089220e630d6085cf7302f8ff2ef5d54b639b90153e01e9af30ec4ca0523a838a0476065d4b377e9dda62c12d6a6819e0bf47b2f4217796003'
+            '4a51cccf15f37da66c56e4721171ab858b894f4f74f3210fb275b437fc7fa99cce21a8a98703462e07163ce3f9ea35d8e2a9f8b5ad147cb819092a037c42c17e')
+b2sums=('f7d4ce3277963584a08aa78e8cb042957887c84af4991e0bae68519c8bfa1499d4844c1b477427301da4cbceee2e9671041c0cae0c1b3b0002f54f3d27999aa8'
+        '6c1bbc5bebb319d921c9f511a156c4e578811319423e99cead87f2044e6269abf38654733376b83f8dbb7432c816f795918935bae741529d7395f249027b2932')
+
+prepare() {
+  cd "$pkgname"
+
+  # Choose the fastest compress method
+  sed -i "s/DefaultCompression/BestSpeed/" "$srcdir/$pkgname/internal/http/response/builder.go"
+
+  # revert unnecessary change to systemd unit file
+  git revert --no-commit 527c5f49cbe851b53b87c25dd19e8b4760aa7032
+
+  # create directory for build output
+  mkdir -p build
+
+  # download dependencies
+  export GOPATH="${srcdir}"
+  go mod download
+}
+
+build() {
+  cd "$pkgname"
+
+  # set Go flags
+  export CGO_CPPFLAGS="${CPPFLAGS}"
+  export CGO_CFLAGS="${CFLAGS}"
+  export CGO_CXXFLAGS="${CXXFLAGS}"
+  export GOPATH="${srcdir}"
+
+  # ensure build date is reproducible
+  local BUILD_DATE=$(git show --no-patch --format=%cd --date=format:%Y-%m-%d-%H:%M:%S)
+
+  go build -v \
+    -buildmode=pie \
+    -mod=readonly \
+    -modcacherw \
+    -ldflags "-compressdwarf=false \
+    -linkmode external \
+    -extldflags '${LDFLAGS}' \
+    -X miniflux.app/v2/internal/version.Version=${pkgver} \
+    -X miniflux.app/v2/internal/version.Commit=$(git rev-parse HEAD) \
+    -X miniflux.app/v2/internal/version.BuildDate=${BUILD_DATE}" \
+    -o build \
+    .
+}
+
+#check() {
+#  cd "$pkgname"
+#  go test -v -race -count=1 ./...
+#}
+
+package() {
+  cd "$pkgname"
+
+  # binary
+  install -vDm755 "build/$pkgname.app" "$pkgdir/usr/bin/$pkgname"
+
+  # documentation
+  install -vDm644 -t "$pkgdir/usr/share/man/man1" "$pkgname.1"
+  install -vDm644 -t "$pkgdir/usr/share/doc/$pkgname" *.md ChangeLog
+
+  # license
+  install -vDm644 -t "$pkgdir/usr/share/licenses/$pkgname" LICENSE
+
+  # systemd integration
+  install -vDm644 -t "$pkgdir/usr/lib/systemd/system" "packaging/systemd/$pkgname.service"
+  install -vDm644 "$srcdir/sysusers.conf" "$pkgdir/usr/lib/sysusers.d/$pkgname.conf"
+  install -vDm600 -t "$pkgdir/etc" "packaging/$pkgname.conf"
+}
