@@ -1,0 +1,16 @@
+diff -ru gonic.original/cmd/gonic/gonic.go gonic/cmd/gonic/gonic.go
+--- gonic.original/cmd/gonic/gonic.go	2025-07-18 11:07:05.673224071 +1200
++++ gonic/cmd/gonic/gonic.go	2025-07-18 11:10:14.891495257 +1200
+@@ -288,9 +288,9 @@
+ 	}
+ 
+ 	var (
+-		readTimeout  = 5 * time.Second
+-		writeTimeout = 5 * time.Second
+-		idleTimeout  = 5 * time.Second
++		readTimeout  = 15 * time.Second
++		writeTimeout = 15 * time.Second
++		idleTimeout  = 15 * time.Second
+ 	)
+ 
+ 	if *confPprof {
