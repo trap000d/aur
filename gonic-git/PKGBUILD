@@ -1,0 +1,53 @@
+# Maintainer: Rafael Epplée <aur (at) rafa (dot) ee>
+
+pkgname=gonic-git
+_pkgname=gonic
+pkgver=r1188.fa434cc
+pkgrel=1
+pkgdesc='A lightweight music streaming server which implements the Subsonic API'
+arch=('aarch64')
+depends=('alsa-lib' 'gcc-libs' 'sqlite' 'taglib')
+makedepends=('go' 'zlib')
+optdepends=('ffmpeg: on-the-fly audio transcoding and caching')
+conflicts=('gonic')
+
+url='https://github.com/sentriz/gonic'
+license=('GPL3')
+backup=("var/lib/gonic/config")
+install="${_pkgname}.install"
+source=("git+https://github.com/sentriz/gonic.git"
+        "001-db-timeouts.patch"
+        "${_pkgname}.install"
+        "${_pkgname}.sysusers"
+        "${_pkgname}.tmpfiles")
+md5sums=('SKIP'
+         'f859be3076b47ad2f4d4c9e9f18d1e89'
+         'd6e8eda0411af60e613819ac957fcc56'
+         '6ca6715be2cdd424846f7b37b98905f6'
+         '487fe9a172e33d86514cf3dbb3b629b8')
+pkgver() {
+    cd ${srcdir}/${_pkgname}
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+prepare() {
+        cd ${srcdir}/${_pkgname}
+        patch -p1 < ../001-db-timeouts.patch
+}
+
+build() {
+        export CGO_LDFLAGS="${LDFLAGS}"
+        export GOFLAGS="-trimpath"
+        cd ${srcdir}/${_pkgname}
+        go build -o gonic cmd/gonic/gonic.go
+}
+
+package() {
+        install -Dm644 "${_pkgname}.sysusers" "$pkgdir/usr/lib/sysusers.d/${_pkgname}.conf"
+        install -Dm644 "${_pkgname}.tmpfiles" "$pkgdir/usr/lib/tmpfiles.d/${_pkgname}.conf"
+        install -Dm644 "${_pkgname}.service"  "$pkgdir/usr/lib/systemd/system/${_pkgname}.service"
+
+        cd ${srcdir}/${_pkgname}
+        install -Dm755 "${_pkgname}" "$pkgdir/usr/bin/${_pkgname}"
+        install -Dm644 "contrib/config" "$pkgdir/var/lib/gonic/config.example"
+}
+
