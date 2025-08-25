@@ -1,0 +1,51 @@
+diff --git a/controller/seafile-controller.c b/controller/seafile-controller.c
+index 3dde027..7c30aee 100644
+--- a/controller/seafile-controller.c
++++ b/controller/seafile-controller.c
+@@ -244,25 +244,19 @@ get_python_executable() {
+ }
+ 
+ static void
+-init_seafile_path ()
++init_seafile_path (char *central_config_dir)
+ {
+-    GError *error = NULL;
+-    char *binary = g_file_read_link (PROC_SELF_PATH, &error);
+-    char *tmp = NULL;
+-    if (error != NULL) {
+-        seaf_warning ("failed to readlink: %s\n", error->message);
+-        return;
+-    }
+-
+-    bin_dir = g_path_get_dirname (binary);
+-
+-    tmp = g_path_get_dirname (bin_dir);
+-    installpath = g_path_get_dirname (tmp);
+-
+-    topdir = g_path_get_dirname (installpath);
+-
+-    g_free (binary);
+-    g_free (tmp);
++    /*
++     * In seafile-server ArchLinux package, the "bin_dir" is a
++     * symlink to "/usr/bin".
++     * We can't use the relative path to these executables for determinate
++     * the paths of the instances.
++     *
++     * Thanks @yuyichao.
++     */
++    topdir = g_path_get_dirname (central_config_dir);
++    installpath = g_build_filename (topdir, "seafile-server", NULL);
++    bin_dir = g_build_filename (installpath, "seafile", "bin", NULL);
+ }
+ 
+ static void
+@@ -501,7 +495,7 @@ seaf_controller_init (SeafileController *ctl,
+                       char *seafile_dir,
+                       char *logdir)
+ {
+-    init_seafile_path ();
++    init_seafile_path (central_config_dir);
+     if (!g_file_test (config_dir, G_FILE_TEST_IS_DIR)) {
+         seaf_warning ("invalid config_dir: %s\n", config_dir);
+         return -1;
