@@ -5,7 +5,7 @@
 
 pkgname=seahub
 pkgver=13.0.8
-pkgrel=1
+pkgrel=2
 pkgdesc='The web frontend for seafile server'
 arch=('any')
 url='https://github.com/haiwen/seahub'
@@ -52,24 +52,23 @@ source=(
     'seahub@.service'
     'nginx.example.conf'
     'fix_avatar_storage.diff'
-    'fix_gunicorn_no_daemon.diff'
-    'fix_seafevents_error.diff'
-)
+    'fix_configuration_files.diff'
+    'fix_django_memcached.diff')
 sha256sums=('e006b81d2ab92046bea362e96ccdcd62e44eb9c333c1866cb87d81ff762fd56f'
             '15e449ce6d4181ba27c2ef83381cb673d759b3d3a4244998637d55d8fa0362b1'
             '67bb375871ce908b48bef53277284c9d8f80ee2e733efc89cb66d987647195e4'
             '461591ba500d012523d6fdecbcc230461f6fd8d708b92eefdedc8b93b1542171'
             '371f9c01a31691167b76c43e29277c266a4b3aec985fb29ff8a0180a8db5b59f'
-            'cbb614ada361aa594be8cafbdb532788a3884f4f63998748cfede8b49be4664c'
-            'fc0c98d3b381752976557f53390ee59e8956d3fa2418cdeb97888bf3de37d7ad')
+            '58b7c67a69c55a949fed83ffe2c54b0fff868a04eb0df80b22c9ae8a0911e87b'
+            '08ade0e034ebfd22eb8bc497ac3cfce26d1cf7faa2fbfb2891aeb3a0b48991d6')
 options=('!strip')
 
 prepare() {
     cd "$srcdir/$pkgname-$pkgver-server"
 
     patch -p1 -i "$srcdir/fix_avatar_storage.diff"
-    patch -p1 -i "$srcdir/fix_gunicorn_no_daemon.diff"
-    patch -p1 -i "$srcdir/fix_seafevents_error.diff"
+    patch -p1 -i "$srcdir/fix_configuration_files.diff"
+    patch -p1 -i "$srcdir/fix_django_memcached.diff"
 
     # Remove useless files and directories
     rm -rf \

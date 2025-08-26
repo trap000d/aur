@@ -1,0 +1,12 @@
+diff -ru a/seahub/settings.py b/seahub/settings.py
+--- a/seahub/settings.py	2025-08-25 20:40:23.000000000 +1200
++++ b/seahub/settings.py	2025-08-26 13:07:45.357144923 +1200
+@@ -1264,7 +1264,7 @@
+     mem_port = int(os.getenv('MEMCACHED_PORT', 0)) or conf_mem_port
+ 
+     CACHES['default'] = {
+-        'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
++        'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
+         'LOCATION': f'{mem_host}:{mem_port}'
+     }
+ else:
