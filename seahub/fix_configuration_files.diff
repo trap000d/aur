@@ -1,0 +1,45 @@
+--- a/scripts/seahub.sh	2025-07-29 22:37:17.000000000 +1200
++++ b/scripts/seahub.sh	2025-08-26 13:04:07.028894492 +1200
+@@ -24,7 +24,7 @@
+ pidfile=${TOPDIR}/pids/seahub.pid
+ errorlog=${TOPDIR}/logs/gunicorn_error.log
+ accesslog=${TOPDIR}/logs/gunicorn_access.log
+-gunicorn_exe=${INSTALLPATH}/seahub/thirdpart/bin/gunicorn
++gunicorn_exe=/usr/bin/gunicorn
+ pro_pylibs_dir=${INSTALLPATH}/pro/python
+ seafesdir=$pro_pylibs_dir/seafes
+ seahubdir=${INSTALLPATH}/seahub
+@@ -170,7 +170,7 @@
+     check_init_admin;
+ 
+     export DJANGO_SETTINGS_MODULE=seahub.settings
+-    $PYTHON $gunicorn_exe seahub.wsgi:application -c "${gunicorn_conf}" --preload &
++    $PYTHON $gunicorn_exe seahub.wsgi:application -c "${gunicorn_conf}" --preload
+ 
+     # Ensure seahub is started successfully
+     sleep 5
+@@ -212,6 +212,11 @@
+         export SITE_ROOT=${SITE_ROOT:-/}
+         export ENABLE_SEADOC=${ENABLE_SEADOC}
+         export SEADOC_SERVER_URL=${SEADOC_SERVER_URL}
++        export CACHE_PROVIDER=${CACHE_PROVIDER}
++          export MEMCACHED_HOST=${MEMCACHED_HOST}
++          export MEMCACHED_PORT=${MEMCACHED_PORT}
++        #export #REDIS_HOST="127.0.0.1"
++        #export #REDIS_PORT="6379"
+     fi
+ }
+ 
+@@ -251,9 +256,9 @@
+ function stop_seahub () {
+     if [[ -f ${pidfile} ]]; then
+         echo "Stopping seahub ..."
+-        pkill -f "thirdpart/bin/gunicorn"
+-        sleep 1
+-        if pgrep -f "thirdpart/bin/gunicorn" 2>/dev/null 1>&2 ; then
++        pkill --uid $UID -f "$gunicorn_exe"
++        sleep 3
++        if pgrep --uid $UID -f "$gunicorn_exe" 2>/dev/null 1>&2 ; then
+             echo 'Failed to stop seahub.'
+             exit 1
+         fi
