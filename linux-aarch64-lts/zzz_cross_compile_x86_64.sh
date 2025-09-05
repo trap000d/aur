@@ -2,7 +2,7 @@
 
 
 REP=~/src/arch/aur/linux-aarch64-lts
-VER="6.12.42"
+VER="6.12.45"
 OLDPWD=$PWD
 sed -i "s/^pkgver=.*/pkgver=$VER/" PKGBUILD
 
@@ -33,6 +33,7 @@ makepkg --printsrcinfo > .SRCINFO
 RESULT=$?
 if [ $RESULT -eq 0 ]; then
   echo "Buid success, pushing to Github"
+  cd $REP && git pull && cd $OLDPWD
   cp 0001-net-smsc95xx-Allow-mac-address-to-be-set-as-a-parame.patch \
      0002-arm64-dts-rockchip-disable-pwm0-on-rk3399-firefly.patch    \
      0003-pps-Compatibility-hack-should-be-X86-specific.patch        \
