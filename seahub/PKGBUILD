@@ -4,14 +4,14 @@
 # Contributor: Aaron Lindsay <aaron@aclindsay.com>
 
 pkgname=seahub
-pkgver=13.0.9
+pkgver=13.0.11
 pkgrel=1
 pkgdesc='The web frontend for seafile server'
 arch=('any')
 url='https://github.com/haiwen/seahub'
 license=('Apache-2.0')
 depends=(
-    "seafile-server>=$pkgver"
+    "seafile-server"
     'python-django'
     'python-django-statici18n'
     'python-django-webpack-loader'
@@ -53,7 +53,7 @@ source=(
     'nginx.example.conf'
     'fix_configuration_files.diff'
     'fix_django_memcached.diff')
-sha256sums=('7e6f5908afc0d3bf533d40d5b203a96e5884fab559f0607571fb664014e3ee6e'
+sha256sums=('381b2cbf1b8121718e1d9c4e1abd54f0393d03ff0e99c601ad3a49a9b65ee466'
             'a96d96d60cc7998ea10b4feaf34e8688b21b412a7cc649c75614fdb03a21ed2b'
             '67bb375871ce908b48bef53277284c9d8f80ee2e733efc89cb66d987647195e4'
             '461591ba500d012523d6fdecbcc230461f6fd8d708b92eefdedc8b93b1542171'
