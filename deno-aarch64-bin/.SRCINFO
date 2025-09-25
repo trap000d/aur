@@ -1,0 +1,15 @@
+pkgbase = deno-aarch64-bin
+	pkgdesc = A modern JavaScript and TypeScript runtime. Latest artefact from github.
+	pkgver = 2.5.2
+	pkgrel = 1
+	url = https://deno.land
+	arch = aarch64
+	license = MIT
+	depends = gcc-libs
+	provides = deno
+	conflicts = deno
+	options = !strip
+	source = https://github.com/denoland/deno/releases/latest/download/deno-aarch64-unknown-linux-gnu.zip
+	sha256sums = SKIP
+
+pkgname = deno-aarch64-bin
