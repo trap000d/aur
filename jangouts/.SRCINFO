@@ -1,0 +1,15 @@
+pkgbase = jangouts
+	pkgdesc = Videoconferencing based on WebRTC and Janus Gateway with an UI inspired by Google Hangouts
+	pkgver = 0.6.0
+	pkgrel = 1
+	url = https://github.com/jangouts/jangouts
+	arch = any
+	license = custom
+	depends = janus-gateway
+	options = !strip
+	backup = etc/jangouts/config.json
+	backup = etc/jangouts/config.callstats.json
+	source = https://github.com/jangouts/jangouts/archive/v0.6.0.tar.gz
+	sha256sums = adc00644f332bba4849f5e96f68048ee56dd16b9ded1177d670fc0c9b4bdf77d
+
+pkgname = jangouts

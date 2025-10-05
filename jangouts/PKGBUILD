@@ -1,0 +1,37 @@
+# Maintainer: Martchus <martchus@gmx.net>
+
+# All my PKGBUILDs are managed at https://github.com/Martchus/PKGBUILDs where
+# you also find the URL of a binary repository.
+
+pkgname=jangouts
+pkgver=0.6.0
+pkgrel=1
+pkgdesc='Videoconferencing based on WebRTC and Janus Gateway with an UI inspired by Google Hangouts'
+url='https://github.com/jangouts/jangouts'
+arch=('any')
+license=('custom')
+depends=('janus-gateway')
+source=("https://github.com/$pkgname/$pkgname/archive/v$pkgver.tar.gz")
+sha256sums=('adc00644f332bba4849f5e96f68048ee56dd16b9ded1177d670fc0c9b4bdf77d')
+options=('!strip')
+backup=("etc/$pkgname/config.json"
+        "etc/$pkgname/config.callstats.json")
+
+prepare() {
+  cd "${srcdir}/jangouts-$pkgver"
+}
+
+package() {
+  cd "${srcdir}/jangouts-$pkgver"
+
+  install -dm 755 "$pkgdir"/usr/share/$pkgname/static/{css,js,media}
+  install -dm 755 "$pkgdir"/etc"/$pkgname"
+  cp build/config.json.sample "$pkgdir/etc/$pkgname/config.json"
+
+  cp -R build/* "$pkgdir/usr/share/$pkgname/"
+
+  install -Dm644 {README,DEPLOYMENT,DEVELOPMENT,JANUS,TROUBLES}.md -t "$pkgdir/usr/share/doc/$pkgname/"
+  install -Dm644 LICENSE.txt -t "$pkgdir/usr/share/licenses/$pkgname"
+}
+
+# vim:set ts=2 sw=2 et:
