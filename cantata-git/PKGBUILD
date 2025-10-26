@@ -3,8 +3,8 @@
 # Contributor: Kim Scarborough <sluggo@unknown.nu>
 
 pkgname=cantata-git
-pkgver=3.3.1.r17.g9ee0414
-pkgrel=1
+pkgver=3.3.1.r21.gdc5a0ce
+pkgrel=2
 pkgdesc="Qt6 graphical client for Music Player Daemon (MPD), nullobsi fork"
 arch=(x86_64 i686 aarch64 armv7h)
 url="https://github.com/nullobsi/cantata"
@@ -23,10 +23,10 @@ depends=(qt6-base
          #taglib-extras
          udisks2
          ffmpeg
-		 kitemviews
-
-        avahi gcc-libs zlib glibc
-         )
+         karchive
+         kitemviews
+         avahi gcc-libs zlib glibc
+        )
 makedepends=(git cmake qt6-tools vulkan-headers)
 optdepends=('perl-uri: Dynamic playlist'
             'mpd: Playback')
@@ -45,10 +45,11 @@ prepare() {
   patch -p1 < ../002-disable-local-folders.patch
 }
 
+##    -DBUNDLED_KARCHIVE=ON \
+
 build() {
   cmake -B build -S "cantata-nullobsi" -Wno-dev \
     -DBUNDLED_FONTAWESOME=ON \
-    -DBUNDLED_KARCHIVE=ON \
     -DQT_DIR=/usr/lib/cmake/Qt6 \
     -DCMAKE_BUILD_TYPE=None \
     -DCMAKE_INSTALL_PREFIX=/usr \
