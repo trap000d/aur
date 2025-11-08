@@ -1,0 +1,17 @@
+[Unit]
+Description=Seafile Notification Server
+# add mysql.service or postgresql.service depending on your database to the line below
+After=network.target seafile.service mysql.service
+
+[Service]
+Type=simple
+WorkingDirectory=/srv/seafile
+EnvironmentFile=/srv/seafile/conf/.env
+Environment=SEAHUB_LOG_DIR=/srv/seafile/logs
+ExecStart=notification-server -c /srv/seafile/conf -l /srv/seafile/logs/notification-server.log
+#LimitNOFILE=infinity
+User=seafile
+Group=seafile
+
+[Install]
+WantedBy=multi-user.target

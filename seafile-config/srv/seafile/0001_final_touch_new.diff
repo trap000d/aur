@@ -1,0 +1,92 @@
+diff -ru /usr/share/seafile-server/seafile-monitor.sh /srv/seafile/seafile-server/seafile-monitor.sh
+--- /usr/share/seafile-server/seafile-monitor.sh	2025-11-07 23:07:36.000000000 +1300
++++ /srv/seafile/seafile-server/seafile-monitor.sh	2025-11-08 08:12:10.493310085 +1300
+@@ -203,10 +203,10 @@
+ }
+ 
+ function monitor_seafdav() {
+-    process_name="wsgidav.server.server_cli"
+-    check_num=$(check_process $process_name)
++    process_name="\[gunicorn\]"
++    check_num=$(ps -u $USER -ef | grep  $process_name | wc -l)
+     if [ $check_num -eq 0 ]; then
+-        log "Start $process_name"
++        log "Start seafdav"
+         start_seafdav
+     fi
+ }
+@@ -227,11 +227,11 @@
+         monitor_fileserver
+     fi
+ 
+-    if [ $CLUSTER_MODE ] && [ $CLUSTER_MODE = "backend" ]; then
+-       :
+-    else
+-        monitor_seafevents
+-    fi
++    #if [ $CLUSTER_MODE ] && [ $CLUSTER_MODE = "backend" ]; then
++    #   :
++    #else
++    #    monitor_seafevents
++    #fi
+ 
+     if [ $ENABLE_SEAFDAV ] && [ $ENABLE_SEAFDAV = "true" ]; then
+         monitor_seafdav
+diff -ru /usr/share/seafile-server/seafile.sh /srv/seafile/seafile-server/seafile.sh
+--- /usr/share/seafile-server/seafile.sh	2025-11-07 23:07:36.000000000 +1300
++++ /srv/seafile/seafile-server/seafile.sh	2025-11-08 08:12:10.494310161 +1300
+@@ -208,7 +208,11 @@
+ 
+     echo "Stopping seafile server ..."
+     kill_all
+-
++    sleep 1
++    if ! pgrep -f "seaf-server" 2>/dev/null 1>&2; then
++        echo "seafile server is stopped"
++        rm ${TOPDIR}/pids/seaf-server.pid
++    fi
+     return 0
+ }
+ 
+diff -ru /usr/share/seafile-server/seahub.sh /srv/seafile/seafile-server/seahub.sh
+--- /usr/share/seafile-server/seahub.sh	2025-11-07 23:07:36.000000000 +1300
++++ /srv/seafile/seafile-server/seahub.sh	2025-11-08 08:12:10.495310236 +1300
+@@ -22,6 +22,7 @@
+ manage_py=${INSTALLPATH}/seahub/manage.py
+ gunicorn_conf=${TOPDIR}/conf/gunicorn.conf.py
+ pidfile=${TOPDIR}/pids/seahub.pid
++pidfileseafdav=${TOPDIR}/pids/seafdav.pid
+ errorlog=${TOPDIR}/logs/gunicorn_error.log
+ accesslog=${TOPDIR}/logs/gunicorn_access.log
+ gunicorn_exe=/usr/bin/gunicorn
+@@ -269,6 +270,22 @@
+     fi
+ }
+ 
++function stop_seafdav () {
++    if [[ -f ${pidfileseafdav} ]]; then
++        echo "Stopping seafdav ..."
++        pkill --uid $UID -f "$gunicorn_exe"
++        sleep 3
++        if pgrep --uid $UID -f "$gunicorn_exe" 2>/dev/null 1>&2 ; then
++            echo 'Failed to stop seafdav.'
++            exit 1
++        fi
++        rm -f ${pidfileseafdav}
++        return 0
++    else
++        echo "Seafdav is not running"
++    fi
++}
++
+ function check_init_admin() {
+     check_init_admin_script=${INSTALLPATH}/check_init_admin.py
+     if ! $PYTHON $check_init_admin_script; then
+@@ -306,6 +323,7 @@
+         ;;
+     "stop" )
+         stop_seahub;
++        stop_seafdav;
+         ;;
+     "restart" )
+         stop_seahub

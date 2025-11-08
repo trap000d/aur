@@ -1,0 +1,12 @@
+[Unit]
+Description=Clean up Seafile libraries
+
+[Timer]
+WakeSystem=false
+OnCalendar=Mon *-*-* 5:00:00
+;Sat *-*-* 06:00:00
+Persistent=true
+RandomizedDelaySec=10min
+
+[Install]
+WantedBy=multi-user.target

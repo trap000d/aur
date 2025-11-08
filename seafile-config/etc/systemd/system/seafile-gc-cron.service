@@ -1,0 +1,9 @@
+[Unit]
+Description=Clean up Seafile libraries
+After=network.target
+
+[Service]
+User=seafile
+Type=oneshot
+ExecStart=/srv/seafile/seafile-server-latest/seaf-gc.sh
+WorkingDirectory=/srv/seafile/seafile-server-latest

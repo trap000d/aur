@@ -1,0 +1,17 @@
+[Unit]
+Description=Seafile
+# add mysql.service or postgresql.service depending on your database to the line below
+After=network.target mysql.service
+
+[Service]
+Type=forking
+WorkingDirectory=/srv/seafile
+Environment=SEAHUB_LOG_DIR=/srv/seafile/logs
+ExecStart=/srv/seafile/seafile-server-latest/seafile.sh start
+ExecStop=/srv/seafile/seafile-server-latest/seafile.sh stop
+LimitNOFILE=infinity
+User=seafile
+Group=seafile
+
+[Install]
+WantedBy=multi-user.target
