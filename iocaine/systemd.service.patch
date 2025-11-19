@@ -1,0 +1,20 @@
+diff -ru iocaine.original/data/iocaine.service iocaine/data/iocaine.service
+--- iocaine.original/data/iocaine.service	2025-11-18 12:36:35.945773050 +1300
++++ iocaine/data/iocaine.service	2025-11-18 20:50:14.090040848 +1300
+@@ -10,7 +10,7 @@
+ Type=notify
+ ExecStart=/usr/bin/iocaine --config-path /etc/iocaine/config.kdl start
+ Restart=on-failure
+-DynamicUser=true
++User=iocaine
+ UMask=0077
+ LimitNOFILE=524288
+ 
+@@ -30,7 +30,6 @@
+ 
+ PrivateTmp=true
+ PrivateDevices=true
+-PrivateUsers=true
+ 
+ SystemCallArchitectures=native
+ DevicePolicy=closed
