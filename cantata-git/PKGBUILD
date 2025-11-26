@@ -3,8 +3,8 @@
 # Contributor: Kim Scarborough <sluggo@unknown.nu>
 
 pkgname=cantata-git
-pkgver=3.3.1.r21.gdc5a0ce
-pkgrel=2
+pkgver=3.3.1.r28.ga2e241f
+pkgrel=1
 pkgdesc="Qt6 graphical client for Music Player Daemon (MPD), nullobsi fork"
 arch=(x86_64 i686 aarch64 armv7h)
 url="https://github.com/nullobsi/cantata"
@@ -53,7 +53,7 @@ build() {
     -DQT_DIR=/usr/lib/cmake/Qt6 \
     -DCMAKE_BUILD_TYPE=None \
     -DCMAKE_INSTALL_PREFIX=/usr \
-    -DCMAKE_INSTALL_LIBEXECDIR=/usr/bin
+    -DCMAKE_INSTALL_LIBEXECDIR=/usr/lib
 
   cmake --build build
 }
