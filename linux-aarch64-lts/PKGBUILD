@@ -8,7 +8,7 @@ pkgbase=linux-aarch64-lts
 _srcname=linux-6.12
 _kernelname=${pkgbase#linux}
 _desc="AArch64 multi-platform"
-pkgver=6.12.58
+pkgver=6.12.59
 pkgrel=1
 arch=('aarch64')
 url="http://www.kernel.org/"
@@ -26,11 +26,11 @@ source=("http://www.kernel.org/pub/linux/kernel/v6.x/${_srcname}.tar.xz"
         'kernel_data_key.vbprivk'
         'linux.preset')
 md5sums=('844fae6a58c7f43af44d8cea8484b4a1'
-         'c8815530e4ce4e1071770f7473ad4dd4'
+         'd561598e1b9d9de38bbec5a333d7e982'
          '7862339da94da0b7958e61e2210760a7'
          'c064a0a49f4ed7d487d482ca73c75178'
          '416b7c6ef37cc0edb6cb67cf618360f5'
-         '1dad3d702e8698114df70bb84ce61e05'
+         '1d8c596a22002e917c4e8c35e09c59c6'
          '7c97cf141750ad810235b1ad06eb9f75'
          '61c5ff73c136ed07a7aadbf58db3d96a'
          '584777ae88bce2c5659960151b64c7d8'
