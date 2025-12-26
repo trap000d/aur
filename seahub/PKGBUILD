@@ -4,7 +4,7 @@
 # Contributor: Aaron Lindsay <aaron@aclindsay.com>
 
 pkgname=seahub
-pkgver=13.0.12
+pkgver=13.0.15
 pkgrel=1
 pkgdesc='The web frontend for seafile server'
 arch=('any')
@@ -45,16 +45,15 @@ optdepends=(
     'python-pylibmc: Memcached support'
     'ffmpeg: For video thumbnails'
 )
-django_version=5.2.8
+#django_version=5.2.8
 source=(
     "$pkgname-$pkgver-server.tar.gz::$url/archive/v$pkgver-server.tar.gz"
-    "python-django-$django_version.tar.gz::https://github.com/django/django/archive/$django_version.tar.gz"
+    #"python-django-$django_version.tar.gz::https://github.com/django/django/archive/$django_version.tar.gz"
     'seahub@.service'
     'nginx.example.conf'
     'fix_configuration_files.diff'
     'fix_django_memcached.diff')
-sha256sums=('c86098797d1144c40d11f8a067b0fb02be712fd657204f1698a14a2f96801ed7'
-            'cb217ba7b0742bbff7b4c5911aad53458507ff668d03bc4de764f604ee21c0d7'
+sha256sums=('4de1d76df87eb35342533645c0bb7713b2435a026fad67c44d5af11f2e7c7e56'
             '67bb375871ce908b48bef53277284c9d8f80ee2e733efc89cb66d987647195e4'
             '461591ba500d012523d6fdecbcc230461f6fd8d708b92eefdedc8b93b1542171'
             '58b7c67a69c55a949fed83ffe2c54b0fff868a04eb0df80b22c9ae8a0911e87b'
@@ -99,15 +98,15 @@ package() {
     mv "$pkgdir/usr/share/seafile-server/seahub/scripts/"* \
         "$pkgdir/usr/share/seafile-server"
 
-    pushd "$srcdir/django-$django_version"
-    cp -vr django -t "$pkgdir/usr/share/seafile-server/$pkgname/thirdpart"
+    ##pushd "$srcdir/django-$django_version"
+    ##cp -vr django -t "$pkgdir/usr/share/seafile-server/$pkgname/thirdpart"
     #python -m build --wheel --no-isolation
     #python -m wheel unpack --dest="$pkgdir/usr/share/seafile-server/$pkgname/thirdpart" dist/*.whl
     #python -m install
     #    --root="$pkgdir/" \
     #    --install-lib="usr/share/seafile-server/$pkgname/thirdpart" \
     #    --optimize=0
-    popd
+    ##popd
     rm -rf "$pkgdir"/usr/{bin,share/seafile-server/"$pkgname"/thirdpart/*.egg-info}
 
     python -m compileall -f -j 0 -o 1 \

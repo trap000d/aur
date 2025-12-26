@@ -4,7 +4,7 @@
 # Contributor: Aaron Lindsay <aaron@aclindsay.com>
 
 pkgname=seafile-server
-pkgver=13.0.12
+pkgver=13.0.15
 pkgrel=1
 pkgdesc='Seafile server core'
 arch=('i686' 'x86_64' 'armv7h' 'aarch64')
@@ -27,15 +27,17 @@ source=(
     "$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver-server.tar.gz"
     'fix_seafile-controller_paths.diff'
     'fix_incompatible_pointer.diff'
+    'fix_incompatible_pointer_2.diff'
     'fix_implicit_declaration_link.diff'
     'fix_conflicting_types.diff'
     'seafile-server@.service'
     'seafile-sysusers.conf'
     'seafile-tmpfiles.conf'
 )
-sha256sums=('728be0250f299a28a4cfbfed402537d081e4ba88043154dc6de82e13f4190d71'
+sha256sums=('d742f03ff8e0139a6705f1e86eb1a912541981ebcae534107bbb7dc721a4248a'
             'c4bd2b24fa2e5919b1ada61fff0dda7486460a8814764dc37db79178378d4930'
             '3a0dd0d5a659d29f9f4b0f2406074e91a6f594f6cdc472838b6b4c99c25de55c'
+            '3d7480cf4ffd118b1b39b0f55004c006faf9922701b5616c68ebc638baf11552'
             '54805cc9d5e54dae038f5bfa7fc0756e9e2673d5601540b702fdc9275b3ffee3'
             'd4a3b4cbeafb9bd825d68636de2a66de63bb2ca43371f92e24181ba7afb9559b'
             'b09ab24829df0692e78b777802298b8cac23bdcdc31306e12ed3543833a7088e'
@@ -46,6 +48,7 @@ prepare() {
     sed -i 's|(DESTDIR)@prefix@|@prefix@|' './lib/libseafile.pc.in'
     patch -p1 -i "$srcdir/fix_seafile-controller_paths.diff"
     patch -p1 -i "$srcdir/fix_incompatible_pointer.diff"
+    patch -p1 -i "$srcdir/fix_incompatible_pointer_2.diff"
     patch -p1 -i "$srcdir/fix_implicit_declaration_link.diff"
     patch -p1 -i "$srcdir/fix_conflicting_types.diff"
 }

@@ -1,0 +1,188 @@
+diff -u seafile-server-13.0.15-server.original/server/access-file.c seafile-server-13.0.15-server/server/access-file.c
+--- seafile-server-13.0.15-server.original/server/access-file.c	2025-12-10 19:24:20.000000000 +1300
++++ seafile-server-13.0.15-server/server/access-file.c	2025-12-26 13:12:56.409534483 +1300
+@@ -2350,7 +2350,7 @@
+     gettimeofday (&info->start, NULL);
+ 
+     seaf_metric_manager_in_flight_request_inc (seaf->metric_mgr);
+-    evhtp_set_hook (&req->hooks, evhtp_hook_on_request_fini, request_finish_cb, info);
++    evhtp_set_hook (&req->hooks, evhtp_hook_on_request_fini, (evhtp_hook)request_finish_cb, info);
+     req->cbarg = info;
+ 
+     return EVHTP_RES_OK;
+@@ -2362,19 +2362,19 @@
+     evhtp_callback_t *cb;
+ 
+     cb = evhtp_set_regex_cb (htp, "^/files/.*", access_cb, NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, access_headers_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)access_headers_cb, NULL);
+ 
+     cb = evhtp_set_regex_cb (htp, "^/blks/.*", access_blks_cb, NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, access_headers_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)access_headers_cb, NULL);
+ 
+     cb = evhtp_set_regex_cb (htp, "^/zip/.*", access_zip_cb, NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, access_headers_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)access_headers_cb, NULL);
+ 
+     cb = evhtp_set_regex_cb (htp, "^/f/.*", access_link_cb, NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, access_headers_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)access_headers_cb, NULL);
+     //evhtp_set_regex_cb (htp, "^/d/.*", access_dir_link_cb, NULL);
+     cb = evhtp_set_regex_cb (htp, "^/repos/[\\da-z]{8}-[\\da-z]{4}-[\\da-z]{4}-[\\da-z]{4}-[\\da-z]{12}/files/.*", access_v2_cb, NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, access_headers_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)access_headers_cb, NULL);
+ 
+     return 0;
+ }
+diff -u seafile-server-13.0.15-server.original/server/http-server.c seafile-server-13.0.15-server/server/http-server.c
+--- seafile-server-13.0.15-server.original/server/http-server.c	2025-12-10 19:24:20.000000000 +1300
++++ seafile-server-13.0.15-server/server/http-server.c	2025-12-26 13:12:24.248093385 +1300
+@@ -3056,7 +3056,7 @@
+     gettimeofday (&info->start, NULL);
+ 
+     seaf_metric_manager_in_flight_request_inc (seaf->metric_mgr);
+-    evhtp_set_hook (&req->hooks, evhtp_hook_on_request_fini, http_request_finish_cb, info);
++    evhtp_set_hook (&req->hooks, evhtp_hook_on_request_fini, (evhtp_hook)http_request_finish_cb, info);
+     req->cbarg = info;
+ 
+     return EVHTP_RES_OK;
+@@ -3071,37 +3071,37 @@
+     cb = evhtp_set_cb (priv->evhtp,
+                   GET_PROTO_PATH, get_protocol_cb,
+                   NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, http_request_start_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)http_request_start_cb, NULL);
+ 
+     cb = evhtp_set_regex_cb (priv->evhtp,
+                         GET_CHECK_QUOTA_REGEX, get_check_quota_cb,
+                         NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, http_request_start_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)http_request_start_cb, NULL);
+ 
+     cb = evhtp_set_regex_cb (priv->evhtp,
+                         OP_PERM_CHECK_REGEX, get_check_permission_cb,
+                         NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, http_request_start_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)http_request_start_cb, NULL);
+ 
+     cb = evhtp_set_regex_cb (priv->evhtp,
+                         HEAD_COMMIT_OPER_REGEX, head_commit_oper_cb,
+                         NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, http_request_start_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)http_request_start_cb, NULL);
+ 
+     cb = evhtp_set_regex_cb (priv->evhtp,
+                         GET_HEAD_COMMITS_MULTI_REGEX, head_commits_multi_cb,
+                         NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, http_request_start_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)http_request_start_cb, NULL);
+ 
+     cb = evhtp_set_regex_cb (priv->evhtp,
+                         COMMIT_OPER_REGEX, commit_oper_cb,
+                         NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, http_request_start_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)http_request_start_cb, NULL);
+ 
+     cb = evhtp_set_regex_cb (priv->evhtp,
+                         GET_FS_OBJ_ID_REGEX, get_fs_obj_id_cb,
+                         NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, http_request_start_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)http_request_start_cb, NULL);
+ 
+     // evhtp_set_regex_cb (priv->evhtp,
+     //                     START_FS_OBJ_ID_REGEX, start_fs_obj_id_cb,
+@@ -3118,42 +3118,42 @@
+     cb = evhtp_set_regex_cb (priv->evhtp,
+                         BLOCK_OPER_REGEX, block_oper_cb,
+                         NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, http_request_start_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)http_request_start_cb, NULL);
+ 
+     cb = evhtp_set_regex_cb (priv->evhtp,
+                         POST_CHECK_FS_REGEX, post_check_fs_cb,
+                         NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, http_request_start_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)http_request_start_cb, NULL);
+ 
+     cb = evhtp_set_regex_cb (priv->evhtp,
+                         POST_CHECK_BLOCK_REGEX, post_check_block_cb,
+                         NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, http_request_start_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)http_request_start_cb, NULL);
+ 
+     cb = evhtp_set_regex_cb (priv->evhtp,
+                         POST_RECV_FS_REGEX, post_recv_fs_cb,
+                         NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, http_request_start_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)http_request_start_cb, NULL);
+ 
+     cb = evhtp_set_regex_cb (priv->evhtp,
+                         POST_PACK_FS_REGEX, post_pack_fs_cb,
+                         NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, http_request_start_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)http_request_start_cb, NULL);
+ 
+     cb = evhtp_set_regex_cb (priv->evhtp,
+                         GET_BLOCK_MAP_REGEX, get_block_map_cb,
+                         NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, http_request_start_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)http_request_start_cb, NULL);
+ 
+     cb = evhtp_set_regex_cb (priv->evhtp,
+                         GET_JWT_TOKEN_REGEX, get_jwt_token_cb,
+                         NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, http_request_start_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)http_request_start_cb, NULL);
+ 
+     cb = evhtp_set_regex_cb (priv->evhtp,
+                         GET_ACCESSIBLE_REPO_LIST_REGEX, get_accessible_repo_list_cb,
+                         NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, http_request_start_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)http_request_start_cb, NULL);
+ 
+     /* Web access file */
+     access_file_init (priv->evhtp);
+diff -u seafile-server-13.0.15-server.original/server/upload-file.c seafile-server-13.0.15-server/server/upload-file.c
+--- seafile-server-13.0.15-server.original/server/upload-file.c	2025-12-26 13:06:51.651858279 +1300
++++ seafile-server-13.0.15-server/server/upload-file.c	2025-12-26 13:14:00.536401803 +1300
+@@ -2922,32 +2922,32 @@
+     g_free (cluster_shared_dir);
+ 
+     cb = evhtp_set_regex_cb (htp, "^/upload-api/.*", upload_api_cb, NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, upload_headers_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)upload_headers_cb, NULL);
+ 
+     cb = evhtp_set_regex_cb (htp, "^/upload-raw-blks-api/.*",
+                              upload_raw_blks_api_cb, NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, upload_headers_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)upload_headers_cb, NULL);
+ 
+     cb = evhtp_set_regex_cb (htp, "^/upload-blks-api/.*", upload_blks_api_cb, NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, upload_headers_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)upload_headers_cb, NULL);
+ 
+     /* cb = evhtp_set_regex_cb (htp, "^/upload-blks-aj/.*", upload_blks_ajax_cb, NULL); */
+     /* evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, upload_headers_cb, NULL); */
+ 
+     cb = evhtp_set_regex_cb (htp, "^/upload-aj/.*", upload_ajax_cb, NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, upload_headers_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)upload_headers_cb, NULL);
+ 
+     cb = evhtp_set_regex_cb (htp, "^/update-api/.*", update_api_cb, NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, upload_headers_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)upload_headers_cb, NULL);
+ 
+     cb = evhtp_set_regex_cb (htp, "^/update-blks-api/.*", update_blks_api_cb, NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, upload_headers_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)upload_headers_cb, NULL);
+ 
+     /* cb = evhtp_set_regex_cb (htp, "^/update-blks-aj/.*", update_blks_ajax_cb, NULL); */
+     /* evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, upload_headers_cb, NULL); */
+ 
+     cb = evhtp_set_regex_cb (htp, "^/update-aj/.*", update_ajax_cb, NULL);
+-    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, upload_headers_cb, NULL);
++    evhtp_set_hook(&cb->hooks, evhtp_hook_on_headers, (evhtp_hook)upload_headers_cb, NULL);
+ 
+     // upload links
+     // cb = evhtp_set_regex_cb (htp, "^/u/.*", upload_link_cb, NULL);
