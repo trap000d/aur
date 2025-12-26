@@ -1,10 +1,11 @@
 pkgbase = photoview-git
 	pkgdesc = Photo gallery for self-hosted personal servers
-	pkgver = r1349.124b6d34
+	pkgver = r1416.f5e1a515
 	pkgrel = 1
 	url = https://github.com/photoview/photoview
 	install = photoview.install
 	arch = x86_64
+	arch = aarch64
 	license = AGPL3
 	makedepends = git
 	makedepends = go
@@ -30,6 +31,5 @@ pkgbase = photoview-git
 	backup = etc/photoview.env
 	source = photoview-git::git+https://github.com/photoview/photoview
 	sha512sums = SKIP
-	sha512sums = aa9b3fe32883af83c183a3cf1d0646b6140f2294c5b58d6df3cac4b1f9b89300f955f46fa125d50ccaac866ab60a752d42f547af19772159e6a2f176c0cf6369
 
 pkgname = photoview-git

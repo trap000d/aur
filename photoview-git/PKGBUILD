@@ -7,10 +7,10 @@
 
 _pkg=photoview
 pkgname=${_pkg}-git
-pkgver=r1349.124b6d34
+pkgver=r1416.f5e1a515
 pkgrel=1
 pkgdesc="Photo gallery for self-hosted personal servers"
-arch=('x86_64')
+arch=('x86_64' 'aarch64')
 url="https://github.com/${_pkg}/${_pkg}"
 license=('AGPL3')
 
@@ -48,12 +48,15 @@ replaces=(
 backup=(
   "etc/${_pkg}.env"
 )
+
 install=${_pkg}.install
+
 source=(
   "${pkgname}::git+https://github.com/${_pkg}/${_pkg}"
 )
-sha512sums=('SKIP'
-            'aa9b3fe32883af83c183a3cf1d0646b6140f2294c5b58d6df3cac4b1f9b89300f955f46fa125d50ccaac866ab60a752d42f547af19772159e6a2f176c0cf6369')
+
+sha512sums=('SKIP')
+
 pkgver() {
     cd ${pkgname}
     printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
