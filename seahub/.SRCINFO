@@ -1,7 +1,7 @@
 pkgbase = seahub
 	pkgdesc = The web frontend for seafile server
 	pkgver = 13.0.15
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/haiwen/seahub
 	arch = any
 	license = Apache-2.0
@@ -20,6 +20,7 @@ pkgbase = seahub
 	depends = python-requests
 	depends = python-requests-oauthlib
 	depends = gunicorn
+	depends = python-cairosvg
 	depends = python-mysqlclient
 	depends = python-qrcode
 	depends = python-pillow
