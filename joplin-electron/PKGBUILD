@@ -1,6 +1,6 @@
 _pkgname=joplin
 pkgname=$_pkgname-electron
-pkgver=3.4.12
+pkgver=3.5.11
 pkgrel=1
 
 _electronversion=""
@@ -22,15 +22,13 @@ source=(
   "joplin.desktop"
   "joplin.sh"
   "0001-support-enable-wayland-ime.patch"
-  "0002-tray-icon-click.patch"
   "0003-asar-unpack-node.patch"
 )
 
-sha256sums=('c00ac2540371543d85b4362fd716ff4748f18a61276d137cad91d318cd30f744'
+sha256sums=('0b7df045209ce554ee46be652789c4d88a2b1e317066103ae7dc5923f4b46d75'
             '9e26cd5f41d08c3c2804cf4f34cb867090371423ccbe250a890fac006d405deb'
             'bd8324d35faaf6815217d1cf31a0b5e4df80692b0312ad17aea20d51f95efd56'
             'f09a741d5c061a1551972ce3666f1150b28dbea63cd886c5dc432473bad30ece'
-            'c3b93a03f55e2c27e48e55aa4c19a6a1f77290fb1eaa45434152e82a200cf884'
             '73028d79f51332e0f4d639b824be173da4ae71c9069cb6c991226c66fd8f2895')
             
 _get_cache() {
@@ -51,8 +49,8 @@ _get_cache() {
 
 prepare() {
     cd ${srcdir}/joplin-${pkgver}
+    git init
     patch -Np1 -i ../0001-support-enable-wayland-ime.patch
-    patch -Np1 -i ../0002-tray-icon-click.patch
     patch -Np1 -i ../0003-asar-unpack-node.patch
 
     sed -i '/"husky": ".*"/d' package.json
