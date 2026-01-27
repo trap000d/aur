@@ -1,53 +1,48 @@
 # Maintainer: Rafael Epplée <aur (at) rafa (dot) ee>
-
-pkgname=gonic-git
-_pkgname=gonic
-pkgver=r1188.fa434cc
+pkgname=gonic
+pkgver=0.20.0
 pkgrel=1
 pkgdesc='A lightweight music streaming server which implements the Subsonic API'
-arch=('aarch64')
-depends=('alsa-lib' 'gcc-libs' 'sqlite' 'taglib')
-makedepends=('go' 'zlib')
-optdepends=('ffmpeg: on-the-fly audio transcoding and caching')
-conflicts=('gonic')
-
+arch=('x86_64' 'armv7h' 'aarch64')
+depends=()
+makedepends=('go')
+optdepends=('ffmpeg: on-the-fly audio transcoding and caching' 'mpv: jukebox mode')
 url='https://github.com/sentriz/gonic'
-license=('GPL3')
+license=('GPL-3.0-only')
 backup=("var/lib/gonic/config")
-install="${_pkgname}.install"
-source=("git+https://github.com/sentriz/gonic.git"
-        "001-db-timeouts.patch"
-        "${_pkgname}.install"
-        "${_pkgname}.sysusers"
-        "${_pkgname}.tmpfiles")
-md5sums=('SKIP'
-         'f859be3076b47ad2f4d4c9e9f18d1e89'
+install="$pkgname.install"
+source=("$pkgname-$pkgver.tar.gz::https://github.com/sentriz/gonic/archive/v$pkgver.tar.gz"
+        "$pkgname.install"
+        "db-timeouts.patch"
+        "$pkgname.service.patch"
+        "$pkgname.sysusers"
+        "$pkgname.tmpfiles")
+md5sums=('8594039cd45018bb26627293b6a5b5c8'
          'd6e8eda0411af60e613819ac957fcc56'
+         'f859be3076b47ad2f4d4c9e9f18d1e89'
+         'ff0d388a71398a4a9906ee068283f57e'
          '6ca6715be2cdd424846f7b37b98905f6'
          '487fe9a172e33d86514cf3dbb3b629b8')
-pkgver() {
-    cd ${srcdir}/${_pkgname}
-    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
-}
 prepare() {
-        cd ${srcdir}/${_pkgname}
-        patch -p1 < ../001-db-timeouts.patch
+        cd "$srcdir/$pkgname-$pkgver"
+        patch --forward --strip=1 -i "../$pkgname.service.patch"
+        patch -p1 < ../db-timeouts.patch
 }
 
 build() {
-        export CGO_LDFLAGS="${LDFLAGS}"
         export GOFLAGS="-trimpath"
-        cd ${srcdir}/${_pkgname}
-        go build -o gonic cmd/gonic/gonic.go
+        export CGO_ENABLED=0
+        cd "$srcdir/$pkgname-$pkgver"
+        go build -o gonic ./cmd/gonic/.
 }
 
 package() {
-        install -Dm644 "${_pkgname}.sysusers" "$pkgdir/usr/lib/sysusers.d/${_pkgname}.conf"
-        install -Dm644 "${_pkgname}.tmpfiles" "$pkgdir/usr/lib/tmpfiles.d/${_pkgname}.conf"
-        install -Dm644 "${_pkgname}.service"  "$pkgdir/usr/lib/systemd/system/${_pkgname}.service"
+	install -Dm644 "$pkgname.sysusers" "$pkgdir/usr/lib/sysusers.d/$pkgname.conf"
+	install -Dm644 "$pkgname.tmpfiles" "$pkgdir/usr/lib/tmpfiles.d/$pkgname.conf"
 
-        cd ${srcdir}/${_pkgname}
-        install -Dm755 "${_pkgname}" "$pkgdir/usr/bin/${_pkgname}"
-        install -Dm644 "contrib/config" "$pkgdir/var/lib/gonic/config.example"
+	cd "$srcdir/$pkgname-$pkgver"
+	install -Dm755 "${pkgname}" "$pkgdir/usr/bin/${pkgname}"
+	install -Dm644 "contrib/config" "$pkgdir/var/lib/gonic/config"
+	install -Dm644 "contrib/$pkgname.service" "$pkgdir/usr/lib/systemd/system/$pkgname.service"
 }
 
