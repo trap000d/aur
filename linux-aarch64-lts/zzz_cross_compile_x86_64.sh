@@ -2,7 +2,7 @@
 
 
 REP=~/src/arch/aur/linux-aarch64-lts
-VER="6.12.67"
+VER="6.12.68"
 OLDPWD=$PWD
 sed -i "s/^pkgver=.*/pkgver=$VER/" PKGBUILD
 
