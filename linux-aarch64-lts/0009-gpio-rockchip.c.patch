@@ -1,0 +1,10 @@
+--- linux-6.12.67/drivers/gpio/gpio-rockchip.c	2026-01-23 23:18:52.000000000 +1300
++++ linux-6.12.65/drivers/gpio/gpio-rockchip.c	2026-01-12 03:25:22.000000000 +1300
+@@ -584,7 +584,6 @@
+ 	gc->ngpio = bank->nr_pins;
+ 	gc->label = bank->name;
+ 	gc->parent = bank->dev;
+-	gc->can_sleep = true;
+ 
+ 	ret = gpiochip_add_data(gc, bank);
+ 	if (ret) {

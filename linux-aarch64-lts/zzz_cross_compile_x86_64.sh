@@ -37,6 +37,7 @@ if [ $RESULT -eq 0 ]; then
   cp 0001-net-smsc95xx-Allow-mac-address-to-be-set-as-a-parame.patch \
      0002-arm64-dts-rockchip-disable-pwm0-on-rk3399-firefly.patch    \
      0003-pps-Compatibility-hack-should-be-X86-specific.patch        \
+     0009-gpio-rockchip.c.patch                                      \
      config                                                          \
      generate_chromebook_its.sh                                      \
      kernel_data_key.vbprivk                                         \
