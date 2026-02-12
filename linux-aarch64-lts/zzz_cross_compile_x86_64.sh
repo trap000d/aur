@@ -2,7 +2,7 @@
 
 
 REP=~/src/arch/aur/linux-aarch64-lts
-VER="6.12.69"
+VER="6.12.70"
 OLDPWD=$PWD
 sed -i "s/^pkgver=.*/pkgver=$VER/" PKGBUILD
 
@@ -46,6 +46,7 @@ if [ $RESULT -eq 0 ]; then
      linux-aarch64-lts.install                                       \
      linux.preset                                                    \
      PKGBUILD                                                        \
+     .SRCINFO                                                        \
      zzz_cross_compile_x86_64.sh                                     \
      $REP
 
