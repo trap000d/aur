@@ -1,6 +1,6 @@
 pkgbase = mtg
 	pkgdesc = Bullshit-free MTProto proxy for Telegram
-	pkgver = 2.1.10
+	pkgver = 2.2.8
 	pkgrel = 1
 	url = https://github.com/9seconds/mtg
 	install = mtg.install
@@ -9,12 +9,11 @@ pkgbase = mtg
 	arch = aarch64
 	license = MIT
 	makedepends = go
-	makedepends = mise
 	depends = glibc
-	source = git+https://github.com/9seconds/mtg#tag=v2.1.10
+	source = git+https://github.com/9seconds/mtg#tag=v2.2.8
 	source = mtg@.service
 	source = example.toml
-	sha256sums = 15aeb7aff7fae133a5c2a0fb9d7b70e95acb979187c7593bfe58c7ba8f32c5c4
+	sha256sums = 2c0c5624f0cb724c42084fd790d28a42d8cc0bfdcdcd59981894ed11977c4b1d
 	sha256sums = 180d995169e400f79d28a2c126e2bbc0579db49680d0c7acc48f9963d0a09f22
 	sha256sums = 6ce35a0747812060cac222554dd760db34e4be246dc5b2eecf1de6b217630163
 
