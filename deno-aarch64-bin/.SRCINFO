@@ -1,6 +1,6 @@
 pkgbase = deno-aarch64-bin
 	pkgdesc = A modern JavaScript and TypeScript runtime. Latest artefact from github.
-	pkgver = 2.6.7
+	pkgver = 2.7.12
 	pkgrel = 1
 	url = https://deno.land
 	arch = aarch64
@@ -10,6 +10,6 @@ pkgbase = deno-aarch64-bin
 	conflicts = deno
 	options = !strip
 	source = https://github.com/denoland/deno/releases/latest/download/deno-aarch64-unknown-linux-gnu.zip
-	sha256sums = d2aedfa8c73e258cce78dc80e8d0e764a69d4a09d946d32f0c29eef46592b82f
+	sha256sums = 4116c1bb5fa2bba348a1f89c5392d5ecdbb505dd7166796870660556ea6c6c53
 
 pkgname = deno-aarch64-bin
