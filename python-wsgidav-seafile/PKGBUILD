@@ -3,7 +3,7 @@
 
 _pkgname=wsgidav-seafile
 pkgname=python-${_pkgname}
-pkgver=13.0.20
+pkgver=13.0.21
 pkgrel=1
 pkgdesc="Seafile webdav server"
 arch=('any')
@@ -22,7 +22,7 @@ makedepends=('python-build' 'python-installer' 'python-wheel' 'python-setuptools
 
 conflicts=('python-wsgidav')
 source=("${url}/archive/v${pkgver}-server.tar.gz")
-sha256sums=('67f0b675c5f021be26489c6ecba36fbee5dfd1ea5bf7f012062e85dbb095d8c5')
+sha256sums=('823d2e9ce98f7d320ec79349e48d95804ed245aeb8c776f9bfe5830c164d1c76')
 
 prepare() {
   cd "$srcdir/seafdav-$pkgver-server"
