@@ -29,17 +29,3 @@
 +        #export #REDIS_PORT="6379"
      fi
  }
- 
-@@ -251,9 +256,9 @@
- function stop_seahub () {
-     if [[ -f ${pidfile} ]]; then
-         echo "Stopping seahub ..."
--        pkill -f "thirdpart/bin/gunicorn"
--        sleep 1
--        if pgrep -f "thirdpart/bin/gunicorn" 2>/dev/null 1>&2 ; then
-+        pkill --uid $UID -f "$gunicorn_exe"
-+        sleep 3
-+        if pgrep --uid $UID -f "$gunicorn_exe" 2>/dev/null 1>&2 ; then
-             echo 'Failed to stop seahub.'
-             exit 1
-         fi
