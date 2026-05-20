@@ -1,5 +1,5 @@
 pkgbase = linux-aarch64-lts
-	pkgver = 6.12.85
+	pkgver = 6.12.90
 	pkgrel = 1
 	url = http://www.kernel.org/
 	arch = aarch64
@@ -11,11 +11,10 @@ pkgbase = linux-aarch64-lts
 	makedepends = bc
 	makedepends = git
 	makedepends = uboot-tools
-	makedepends = vboot-utils
 	makedepends = dtc
 	options = !strip
 	source = http://www.kernel.org/pub/linux/kernel/v6.x/linux-6.12.tar.xz
-	source = http://www.kernel.org/pub/linux/kernel/v6.x/patch-6.12.85.xz
+	source = http://www.kernel.org/pub/linux/kernel/v6.x/patch-6.12.90.xz
 	source = 0001-net-smsc95xx-Allow-mac-address-to-be-set-as-a-parame.patch
 	source = 0002-arm64-dts-rockchip-disable-pwm0-on-rk3399-firefly.patch
 	source = 0003-pps-Compatibility-hack-should-be-X86-specific.patch
@@ -25,7 +24,7 @@ pkgbase = linux-aarch64-lts
 	source = kernel_data_key.vbprivk
 	source = linux.preset
 	md5sums = 844fae6a58c7f43af44d8cea8484b4a1
-	md5sums = 8ca103522151b3454d3093a332204382
+	md5sums = 6a44f84132125c0b509c161a50b792b6
 	md5sums = 7862339da94da0b7958e61e2210760a7
 	md5sums = c064a0a49f4ed7d487d482ca73c75178
 	md5sums = 416b7c6ef37cc0edb6cb67cf618360f5
@@ -38,5 +37,3 @@ pkgbase = linux-aarch64-lts
 pkgname = linux-aarch64-lts
 
 pkgname = linux-aarch64-lts-headers
-
-pkgname = linux-aarch64-lts-chromebook
