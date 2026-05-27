@@ -1,0 +1,32 @@
+# Maintainer: Andreas Baumann <mail@andreasbaumann.cc>
+# Contributor: Jaroslav Lichtblau <svetlemodry@archlinux.org>
+# Contributor: Alexander Bogdanov <andorn@gmail.com>
+
+pkgname=uchmviewer
+_pkgname="uChmViewer"
+pkgver=8.6
+pkgrel=1
+pkgdesc="A .chm files (MS HTML help file format) viewer (fork of kchmviewer)"
+arch=('x86_64')
+url="https://github.com/eBookProjects/uChmViewer"
+license=('GPL-3.0-or-later')
+depends=('chmlib' 'libzip')
+makedepends=('qt6-base')
+source=($pkgname-$pkgver.tar.gz::https://github.com/eBookProjects/uChmViewer/archive/refs/tags/v${pkgver}.tar.gz)
+sha256sums=('fb3633adda1d8aa106308cdf8875f64505a674320f52be4b293f3b35a31a7908')
+
+prepare() {
+  cd ${_pkgname}-$pkgver
+}
+
+build() {
+  cd ${_pkgname}-$pkgver
+  cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DAPP_QT_VERSION=6 -DUSE_WEBENGINE=ON -B build
+  cmake --build build --config Release
+}
+
+package() {
+  cd ${_pkgname}-$pkgver
+
+  DESTDIR="${pkgdir}" cmake --install build
+}

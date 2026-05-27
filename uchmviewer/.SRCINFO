@@ -1,0 +1,14 @@
+pkgbase = uchmviewer
+	pkgdesc = A .chm files (MS HTML help file format) viewer (fork of kchmviewer)
+	pkgver = 8.6
+	pkgrel = 1
+	url = https://github.com/eBookProjects/uChmViewer
+	arch = x86_64
+	license = GPL-3.0-or-later
+	makedepends = qt6-base
+	depends = chmlib
+	depends = libzip
+	source = uchmviewer-8.6.tar.gz::https://github.com/eBookProjects/uChmViewer/archive/refs/tags/v8.6.tar.gz
+	sha256sums = fb3633adda1d8aa106308cdf8875f64505a674320f52be4b293f3b35a31a7908
+
+pkgname = uchmviewer
