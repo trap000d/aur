@@ -5,7 +5,7 @@
 
 pkgname=seahub
 pkgver=13.0.22
-pkgrel=1
+pkgrel=2
 pkgdesc='The web frontend for seafile server'
 arch=('any')
 url='https://github.com/haiwen/seahub'
@@ -52,11 +52,13 @@ source=(
     #"python-django-$django_version.tar.gz::https://github.com/django/django/archive/$django_version.tar.gz"
     'seahub@.service'
     'nginx.example.conf'
+    'fix_seafevents_file_missing.diff'
     'fix_configuration_files.diff'
     'fix_django_memcached.diff')
 sha256sums=('d2b862efe031aefb4a59d0344062c8b7603a0239de769af07b608301c5ac5000'
             '67bb375871ce908b48bef53277284c9d8f80ee2e733efc89cb66d987647195e4'
             '461591ba500d012523d6fdecbcc230461f6fd8d708b92eefdedc8b93b1542171'
+            'e52f2022625263bcf088a73bba6fa2c60d918b692889ec88841ee63c03c56df2'
             '62663f2b559bb321d4bf904fbccf4741ba9fea8a25b578f92d67d8e898581ed3'
             '08ade0e034ebfd22eb8bc497ac3cfce26d1cf7faa2fbfb2891aeb3a0b48991d6')
 options=('!strip')
@@ -64,6 +66,7 @@ options=('!strip')
 prepare() {
     cd "$srcdir/$pkgname-$pkgver-server"
 
+    patch -p1 -i "$srcdir/fix_seafevents_file_missing.diff"
     patch -p1 -i "$srcdir/fix_configuration_files.diff"
     patch -p1 -i "$srcdir/fix_django_memcached.diff"
 

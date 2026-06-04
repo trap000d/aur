@@ -1,0 +1,21 @@
+diff -ru a/seahub/search/utils.py b/seahub/search/utils.py
+--- a/seahub/search/utils.py	2026-06-03 13:45:20.000000000 +1200
++++ b/seahub/search/utils.py	2026-06-04 15:09:22.114301347 +1200
+@@ -8,7 +8,7 @@
+ from django.core.cache import cache
+ from urllib.parse import urljoin
+ 
+-from seahub.settings import EVENTS_CONFIG_FILE, CLOUD_MODE, SECRET_KEY, SEAFEVENTS_SERVER_URL
++from seahub.settings import CLOUD_MODE, SECRET_KEY, SEAFEVENTS_SERVER_URL
+ from seahub.utils.file_types import IMAGE, DOCUMENT, SPREADSHEET, SVG, PDF, \
+         MARKDOWN, VIDEO, AUDIO, TEXT, SEADOC
+ from seahub.utils import get_user_repos, normalize_cache_key
+@@ -30,7 +30,7 @@
+ USER_REPO_INVISIBLE_PATH_PREFIX = getattr(settings, 'USER_REPO_INVISIBLE_PATH_PREFIX', 'REPO_INVISIBLE_PATH_')
+ USER_REPO_INVISIBLE_PATH_CACHE_TIMEOUT = getattr(settings, 'USER_REPO_INVISIBLE_PATH_CACHE_TIMEOUT', 24 * 60 * 60)
+ 
+-os.environ['EVENTS_CONFIG_FILE'] = EVENTS_CONFIG_FILE
++# os.environ['EVENTS_CONFIG_FILE'] = EVENTS_CONFIG_FILE
+ 
+ if HAS_FILE_SEARCH:
+     from seafes import es_search, es_wiki_search
