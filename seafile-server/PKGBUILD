@@ -4,7 +4,7 @@
 # Contributor: Aaron Lindsay <aaron@aclindsay.com>
 
 pkgname=seafile-server
-pkgver=13.0.22
+pkgver=13.0.24
 pkgrel=1
 pkgdesc='Seafile server core'
 arch=('i686' 'x86_64' 'armv7h' 'aarch64')
@@ -34,7 +34,7 @@ source=(
     'seafile-sysusers.conf'
     'seafile-tmpfiles.conf'
 )
-sha256sums=('db51824fc87d0ef41bf8b4ef44aaace17ce676e05a0ea1c8405959b6429342c9'
+sha256sums=('abb2dd039530910c3a9003d423642f70f7a3c616226e5341e8495b0a366c76e8'
             'c4bd2b24fa2e5919b1ada61fff0dda7486460a8814764dc37db79178378d4930'
             '3a0dd0d5a659d29f9f4b0f2406074e91a6f594f6cdc472838b6b4c99c25de55c'
             '3d7480cf4ffd118b1b39b0f55004c006faf9922701b5616c68ebc638baf11552'
