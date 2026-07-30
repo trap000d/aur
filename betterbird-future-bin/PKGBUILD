@@ -4,7 +4,8 @@ _pkgname=betterbird
 _betaver=6
 _betabuild=2
 _build="bb${_betaver}-build${_betabuild}"
-pkgver="153.0esr.b${_betaver}.${_betabuild}"
+_pkgver="153.0esr"
+pkgver="${_pkgver}.b${_betaver}.${_betabuild}"
 pkgrel=1
 pkgdesc="EN-US // Betterbird is a fine-tuned version of Mozilla Thunderbird, Thunderbird on steroids, if you will."
 arch=('x86_64')
@@ -15,7 +16,7 @@ optdepends=('hunspell-en_US')
 provides=("betterbird=${pkgver}")
 conflicts=(betterbird-bin)
 source=(
-    "https://www.betterbird.eu/downloads/153-Preview/${_pkgname}-${pkgver}-${_build}.en-US.linux-x86_64.tar.xz"
+    "https://www.betterbird.eu/downloads/153-Preview/${_pkgname}-${_pkgver}-${_build}.en-US.linux-x86_64.tar.xz"
     "eu.betterbird.Betterbird.desktop"
     "vendor-prefs.js"
 )
