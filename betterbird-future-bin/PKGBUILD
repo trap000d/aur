@@ -2,7 +2,7 @@
 pkgname=betterbird-future-bin
 _pkgname=betterbird
 _betaver=6
-_betabuild=3
+_betabuild=4
 _build="bb${_betaver}-build${_betabuild}"
 _pkgver="153.0esr"
 pkgver="${_pkgver}.b${_betaver}.${_betabuild}"
@@ -46,6 +46,6 @@ package() {
             "$pkgdir"/usr/share/icons/hicolor/${i}x${i}/apps/$_pkgname.png
     done
 }
-sha256sums=('a641e4ff643e7d140ffa755c5e2c3ebef0b5bf6382dfd74ce3299e55be389b01'
+sha256sums=('e4f3b2b6ac9445cd5f3bd0a3c8ccf38a44501f33c635e6e67877fcd400a702dc'
             '60045ec0138ad4c01546df596b97016e467bec6d69c7e4e4c7bdb85e91a31bc2'
             'b11745416d2b2f8bac1ccd3dcb99411c7239b067adf9eb973903c448f8747d09')
