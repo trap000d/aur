@@ -15,8 +15,8 @@ depends=('nodejs' 'npm' 'perl-image-exiftool' 'graphicsmagick')
 optdepends=('ffmpeg: for video support')
 makedepends=('git')
 sha256sums=('SKIP'
-            'a8f6b21491682847cdde62974c37ed555e93a3cb240ae9fcd95de6fa3cc5dd76'
-           )
+            'e99e57d9caca6a98cb0e819429d591ae5a1ae4a67895922d60c1c31fbcd3686e'
+            'debb9dfa7d86151ae5b9fc7a200d2d00e858e800e0dfa1eabc87e986b4a4730c')
 
 #https://codeload.github.com/thumbsup/thumbsup/zip/refs/heads/master
 #https://github.com/thumbsup/thumbsup/archive/master.tar.gz
