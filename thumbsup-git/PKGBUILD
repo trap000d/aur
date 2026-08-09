@@ -64,9 +64,9 @@ package() {
 
   unlink "$pkgdir/usr/lib/node_modules/thumbsup"
   mkdir -p "${pkgdir}/usr/lib/node_modules/thumbsup"
-  cp -av node_modules "${pkgdir}/usr/lib/node_modules/thumbsup/node_modules"
-  cp -av src "${pkgdir}/usr/lib/node_modules/thumbsup/src"
-  cp -av bin "${pkgdir}/usr/lib/node_modules/thumbsup/bin"
+  cp -a node_modules "${pkgdir}/usr/lib/node_modules/thumbsup/node_modules"
+  cp -a src "${pkgdir}/usr/lib/node_modules/thumbsup/src"
+  cp -a bin "${pkgdir}/usr/lib/node_modules/thumbsup/bin"
   #local _npmdir="$pkgdir/usr/lib/node_modules/"
   #mkdir -p $_npmdir
   #cd $_npmdir
