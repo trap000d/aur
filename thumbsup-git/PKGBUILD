@@ -24,6 +24,7 @@ sha256sums=('SKIP'
 source=(
   "${pkgname}::git+https://github.com/thumbsup/thumbsup.git"
   "fix_node_allow_scripts.diff"
+  "413.diff"
 )
 
 pkgver() {
@@ -34,6 +35,8 @@ pkgver() {
 prepare() {
   cd $srcdir/$pkgname
   patch < ../fix_node_allow_scripts.diff
+  patch -p1 < ../413.diff
+
 }
 #build() {
 #  cd $srcdir/$pkgname

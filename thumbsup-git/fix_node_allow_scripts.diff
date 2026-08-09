@@ -6,6 +6,6 @@
      ]
 +  },
 +  "allowScripts": {
-+    "better-sqlite3@11.8.1": true
++    "better-sqlite3@12.9.0": true
    }
  }
