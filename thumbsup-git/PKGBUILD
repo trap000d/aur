@@ -1,0 +1,76 @@
+# Maintainer: Andrés J. Díaz <ajdiaz@ajdiaz.me>
+# Contributor: Felix Golatofski <contact@xdfr.de>
+# Contributor: Andrew Stubbs <andrew.stubbs@gmail.com>
+
+_pkgname=thumbsup
+pkgname=thumbsup-git # All lowercase
+pkgver=r570.6c6cba0
+pkgrel=1
+pkgdesc="Photo / video gallery generator"
+arch=(any)
+conflicts=("nodejs-thumbsup")
+url="https://github.com/thumbsup/thumbsup#readme"
+license=()
+depends=('nodejs' 'npm' 'perl-image-exiftool' 'graphicsmagick')
+optdepends=('ffmpeg: for video support')
+makedepends=('git')
+sha256sums=('SKIP'
+            'a8f6b21491682847cdde62974c37ed555e93a3cb240ae9fcd95de6fa3cc5dd76'
+           )
+
+#https://codeload.github.com/thumbsup/thumbsup/zip/refs/heads/master
+#https://github.com/thumbsup/thumbsup/archive/master.tar.gz
+
+source=(
+  "${pkgname}::git+https://github.com/thumbsup/thumbsup.git"
+  "fix_node_allow_scripts.diff"
+)
+
+pkgver() {
+    cd $pkgname
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+  cd $srcdir/$pkgname
+  patch < ../fix_node_allow_scripts.diff
+}
+#build() {
+#  cd $srcdir/$pkgname
+#  #local _npmdir="$pkgdir/usr/lib/node_modules/"
+#  #mkdir -p $_npmdir
+#  #cd $_npmdir
+#  #npm update
+#  # npm install -g --prefix "$pkgdir/usr" $_npmname@$_npmver
+#  #npm install --cache "$srcdir/npm-cache"
+#  npm install -g --prefix "$pkgdir/usr"
+#  npm install --cache "$srcdir/npm-cache"
+#
+#  # ${pkgname}
+#}
+
+package() {
+  cd $srcdir/$pkgname
+  #npm install -g --prefix "$pkgdir/usr"
+  #npm install-scripts approve better-sqlite3
+  #npm install --cache "$srcdir/npm-cache"
+  npm install --cache "$srcdir/npm-cache"
+  #npm approve-scripts better-sqlite3
+  #npm install --cache "$srcdir/npm-cache"
+  npm install -g --prefix "$pkgdir/usr"
+
+  unlink "$pkgdir/usr/lib/node_modules/thumbsup"
+  mkdir -p "${pkgdir}/usr/lib/node_modules/thumbsup"
+  cp -av node_modules "${pkgdir}/usr/lib/node_modules/thumbsup/node_modules"
+  cp -av src "${pkgdir}/usr/lib/node_modules/thumbsup/src"
+  cp -av bin "${pkgdir}/usr/lib/node_modules/thumbsup/bin"
+  #local _npmdir="$pkgdir/usr/lib/node_modules/"
+  #mkdir -p $_npmdir
+  #cd $_npmdir
+  #npm update
+#  npm install -g --prefix "$pkgdir/usr"
+#  npm install --cache "$srcdir/npm-cache" --allow-scripts better-sqlite3
+
+  # ${pkgname}
+}
+

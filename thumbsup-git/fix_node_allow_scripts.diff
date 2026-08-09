@@ -1,0 +1,11 @@
+--- package.json.original	2026-08-01 09:09:42.525220718 +1200
++++ package.json	2026-08-01 09:04:04.233539841 +1200
+@@ -84,5 +84,8 @@
+       "itLinux",
+       "itWindows"
+     ]
++  },
++  "allowScripts": {
++    "better-sqlite3@11.8.1": true
+   }
+ }
