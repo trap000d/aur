@@ -10,7 +10,7 @@ url="https://github.com/laurent22/joplin"
 license=('AGPL-3.0')
 depends=(
   "electron${_electronversion}" 'gtk3' 'libexif' 'libgsf' 'libjpeg-turbo' 'libwebp' 'libxss'
-  'nss' 'orc' 'rsync' 'libvips' 'nodejs-lts-iron'
+  'nss' 'orc' 'rsync' 'libvips' 'nodejs-lts-jod'
 )
 optdepends=('libappindicator-gtk3: for tray icon')
 makedepends=('npm' 'git')
