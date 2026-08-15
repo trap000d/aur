@@ -1,13 +1,13 @@
 pkgbase = joplin-electron
 	pkgdesc = Joplin Desktop for Linux, using the system Electron package
 	pkgver = 3.6.15
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/laurent22/joplin
 	arch = any
 	license = AGPL-3.0
 	makedepends = npm
 	makedepends = git
-	depends = electron
+	depends = electron42
 	depends = gtk3
 	depends = libexif
 	depends = libgsf

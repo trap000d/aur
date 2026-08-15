@@ -1,9 +1,9 @@
 _pkgname=joplin
 pkgname=$_pkgname-electron
 pkgver=3.6.15
-pkgrel=1
+pkgrel=2
 
-_electronversion=""
+_electronversion="42"
 pkgdesc="Joplin Desktop for Linux, using the system Electron package"
 arch=('any')
 url="https://github.com/laurent22/joplin"
