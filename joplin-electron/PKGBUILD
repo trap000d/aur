@@ -1,6 +1,6 @@
 _pkgname=joplin
 pkgname=$_pkgname-electron
-pkgver=3.7.18
+pkgver=3.7.21
 pkgrel=1
 
 _electronversion="42"
@@ -25,7 +25,7 @@ source=(
   "0003-asar-unpack-node.patch"
 )
 
-sha256sums=('60eb34872a61efce325034ab1a052a0d37f9f0028b037d5482b1e649d8d63c4f'
+sha256sums=('d868a2f9a48937c514b6b39486e88f473b4477085035f75d22542800c1fdd083'
             '9e26cd5f41d08c3c2804cf4f34cb867090371423ccbe250a890fac006d405deb'
             'bd8324d35faaf6815217d1cf31a0b5e4df80692b0312ad17aea20d51f95efd56'
             'f09a741d5c061a1551972ce3666f1150b28dbea63cd886c5dc432473bad30ece'
@@ -99,7 +99,7 @@ package() {
   cp -vr ${srcdir}/${_pkgname}-${pkgver}/packages/app-desktop/dist/linux-unpacked/resources/build -t "${pkgdir}/usr/lib/${_pkgname}"
 
   for i in 16 32 64 128 256 512 1024; do
-    [[ -f "${srcdir}/packages/app-desktop/build/icons/${i}x${i}.png" ]] && install -vDm644 ${srcdir}/build/icons/${i}x${i}.png "${pkgdir}/usr/share/icons/hicolor/${i}x${i}/apps/${_pkgname}.png"
+    [[ -f "${srcdir}/${_pkgname}-${pkgver}/packages/app-desktop/build/icons/${i}x${i}.png" ]] && install -vDm644 ${srcdir}/${_pkgname}-${pkgver}/packages/app-desktop/build/icons/${i}x${i}.png "${pkgdir}/usr/share/icons/hicolor/${i}x${i}/apps/${_pkgname}.png"
   done
 
   install -vDm755 "${srcdir}/${_pkgname}.sh" "${pkgdir}/usr/bin/joplin-desktop"
