@@ -1,6 +1,6 @@
 # Maintainer: JOLIMAITRE Matthieu <matthieu@imagevo.fr>
 pkgname="deno-aarch64-bin"
-pkgver=2.9.5
+pkgver=2.9.7
 pkgrel=1
 pkgdesc="A modern JavaScript and TypeScript runtime. Latest artefact from github."
 url="https://deno.land"
@@ -8,7 +8,7 @@ arch=("aarch64")
 license=('MIT')
 depends=('gcc-libs')
 source=("https://github.com/denoland/deno/releases/latest/download/deno-$arch-unknown-linux-gnu.zip")
-sha256sums=('6b7cae3a8fc4385a59dea3146fcb8bad7fea4230e0ad36a8c692afacbc254be0')
+sha256sums=('c832298b1ad4422481334855f6003e0f54145762c5a134f20a489511d2f65bbf')
 options=("!strip")
 provides=("deno")
 conflicts=("deno")
