@@ -4,9 +4,9 @@ User=joplin-server
 Type=Simple
 
 EnvironmentFile=/etc/joplin-server.env
-Environment="HOME=/opt/joplin-server/server"
+Environment="HOME=/opt/joplin-server/packages/server"
 Enviroment="NODE_ENV=production"
-WorkingDirectory=/opt/joplin-server/server
+WorkingDirectory=/opt/joplin-server/packages/server
 ExecStart=/usr/bin/pm2 start --no-daemon --exp-backoff-restart-delay=1000 dist/app.js
 ExecStop=/usr/bin/pm2 stop dist/app.js
 
